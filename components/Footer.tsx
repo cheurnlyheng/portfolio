@@ -2,21 +2,30 @@ import { navItems } from "@/data/navigation";
 import { socials } from "@/data/socials";
 
 export function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-[#172338] py-[72px] text-white lg:py-[78px]">
-      <div className="mx-auto grid max-w-[1050px] gap-9 px-[22px] sm:grid-cols-2 lg:grid-cols-[minmax(220px,1fr)_minmax(140px,0.55fr)_minmax(140px,0.55fr)] lg:px-[54px]">
+    <footer className="relative bg-[#221d17] py-16 text-[#f6f1e6] lg:py-20">
+      <div className="mx-auto grid max-w-[1050px] gap-12 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-[minmax(220px,1fr)_minmax(140px,0.55fr)_minmax(140px,0.55fr)] lg:px-[54px]">
         <div>
-          <h2 className="mb-2.5 text-[clamp(1.5rem,2.1vw,1.85rem)] leading-none">
-            Portfolio
+          <h2 className="mb-3 font-serif text-[clamp(1.5rem,2.1vw,1.85rem)] font-semibold italic leading-none">
+            Cheurn Lyheng
           </h2>
-          <p className="m-0 text-sm text-white/70">Feel free to contact me!</p>
+          <p className="m-0 max-w-[280px] text-sm font-semibold text-[#f6f1e6]/50">
+            Full-stack developer &amp; UI/UX designer. Feel free to reach out anytime.
+          </p>
         </div>
         <div>
-          <h3 className="mb-3 text-[clamp(1rem,1.4vw,1.15rem)]">Navigation</h3>
-          <ul className="grid list-none gap-1.5 p-0">
+          <h3 className="mb-4 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#f6f1e6]/40">
+            Navigation
+          </h3>
+          <ul className="grid list-none gap-2 p-0">
             {navItems.map((item) => (
               <li key={item.href}>
-                <a className="text-sm text-white/70 hover:text-white" href={item.href}>
+                <a
+                  className="text-sm font-bold text-[#f6f1e6]/70 transition hover:text-[#e4906c]"
+                  href={item.href}
+                >
                   {item.label}
                 </a>
               </li>
@@ -24,12 +33,14 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h3 className="mb-3 text-[clamp(1rem,1.4vw,1.15rem)]">Contacts</h3>
-          <ul className="grid list-none gap-1.5 p-0">
+          <h3 className="mb-4 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#f6f1e6]/40">
+            Contacts
+          </h3>
+          <ul className="grid list-none gap-2 p-0">
             {socials.map((social) => (
               <li key={social.label}>
                 <a
-                  className="text-sm text-white/70 hover:text-white"
+                  className="text-sm font-bold text-[#f6f1e6]/70 transition hover:text-[#e4906c]"
                   href={social.href}
                   target={social.href.startsWith("http") ? "_blank" : undefined}
                   rel={social.href.startsWith("http") ? "noreferrer" : undefined}
@@ -40,6 +51,12 @@ export function Footer() {
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="mx-auto mt-12 max-w-[1050px] border-t border-[#f6f1e6]/12 px-5 pt-6 sm:px-8 lg:px-[54px]">
+        <p className="m-0 text-xs font-semibold text-[#f6f1e6]/35">
+          © {year} Cheurn Lyheng. All rights reserved.
+        </p>
       </div>
     </footer>
   );

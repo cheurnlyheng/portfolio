@@ -22,3 +22,28 @@ CONTACT_FROM_EMAIL=Portfolio <contact@yourdomain.com>
 ```
 
 For production, verify your sending domain in Resend, then add the same environment variables in Vercel.
+
+## Projects Showcase + Admin
+
+Projects shown in the "Selected work" section are stored in a Postgres database and managed from a password-protected `/admin` page — no code edits needed to add a project.
+
+1. Create a free Postgres database (e.g. [Neon](https://neon.tech) or [Vercel Postgres](https://vercel.com/storage/postgres)) and copy its connection string.
+2. Add to `.env.local`:
+
+   ```bash
+   DATABASE_URL="postgresql://..."
+   ADMIN_PASSWORD=choose-a-strong-password
+   ADMIN_SESSION_SECRET=some-long-random-string
+   ```
+
+   Generate a random secret with `node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"`.
+
+3. Create the `Project` table:
+
+   ```bash
+   npx prisma migrate dev --name init
+   ```
+
+4. Visit `/admin`, sign in with `ADMIN_PASSWORD`, and add projects (title, description, date, GitHub link, and an optional live site link — leave it blank for projects that aren't deployed yet).
+
+Add the same three environment variables in Vercel's project settings for production, and run `npx prisma migrate deploy` (or let it run once against the production database) before the first deploy.

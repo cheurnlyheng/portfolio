@@ -20,10 +20,10 @@ export function Contact() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<Status>("idle");
   const [notice, setNotice] = useState("");
-  const labelClass = "grid gap-[5px]";
+  const labelClass = "grid gap-[6px]";
   const fieldClass =
-    "w-full rounded-[7px] border-[1.5px] border-[#1f2a44]/40 bg-white/70 px-2.5 py-2 font-bold text-[#1f2a44] outline-0 transition placeholder:text-[#5b6376]/55 focus:border-[#c12ee9] focus:bg-white focus:shadow-[0_0_0_4px_rgba(230,68,255,0.14)]";
-  const labelTextClass = "text-[clamp(0.98rem,1.45vw,1.18rem)] leading-none";
+    "w-full border-b-2 border-[#221d17]/20 bg-transparent px-0.5 py-2 font-bold text-[#221d17] outline-0 transition placeholder:text-[#221d17]/30 focus:border-[#b3502b]";
+  const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#221d17]/45";
 
   const updateField = (field: keyof typeof initialForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -57,58 +57,74 @@ export function Contact() {
   };
 
   return (
-    <section className="bg-[#f7e5fb] py-14 lg:py-[76px]" id="contact">
-      <div className="mx-auto grid w-full max-w-[1180px] items-center gap-[clamp(36px,7vw,82px)] px-[22px] lg:grid-cols-[minmax(280px,0.86fr)_minmax(360px,1fr)] lg:px-[54px]">
+    <section className="relative scroll-mt-28 border-t border-[#221d17]/10 py-20 sm:scroll-mt-20 lg:py-28" id="contact">
+      <div className="mx-auto grid w-full max-w-[1240px] items-start gap-[clamp(40px,7vw,80px)] px-5 sm:px-8 lg:grid-cols-[minmax(280px,0.9fr)_minmax(360px,1fr)] lg:px-[54px]">
         <motion.div
-          className="text-[#1f2a44]"
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="text-[#221d17]"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="mb-7 max-w-[680px] text-[clamp(3.05rem,15vw,4.7rem)] leading-[0.98] lg:max-w-[570px] lg:text-[clamp(3.6rem,8vw,7.1rem)]">
-            Let&apos;s get in touch
+          <p className="mb-3 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#b3502b]">
+            05 — Contact
+          </p>
+          <h2 className="mb-5 max-w-[480px] font-serif text-[clamp(2.4rem,7vw,3.2rem)] font-semibold leading-[1.08]">
+            Let&apos;s <span className="italic text-[#b3502b]">get in touch</span>
           </h2>
-          <p className="mb-10 text-[clamp(1.55rem,8vw,2.2rem)] leading-[1.08] lg:text-[clamp(1.8rem,3.4vw,3.1rem)]">
+          <p className="mb-10 text-[clamp(1rem,2vw,1.15rem)] font-semibold text-[#221d17]/55">
             Feel free to give me a dm.
           </p>
 
           <div className="grid gap-7">
             <div>
-              <h3 className="mb-2 text-[clamp(1rem,1.5vw,1.2rem)]">Phone</h3>
-              <a className="text-[clamp(0.92rem,1.3vw,1.02rem)] text-[#465069]" href="tel:+85517400085">
+              <h3 className="mb-2 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#221d17]/40">
+                Phone
+              </h3>
+              <a
+                className="text-[clamp(0.95rem,1.3vw,1.05rem)] font-bold text-[#221d17]/80 transition hover:text-[#b3502b]"
+                href="tel:+85517400085"
+              >
                 +(855) 17400085
               </a>
             </div>
             <div>
-              <h3 className="mb-2 text-[clamp(1rem,1.5vw,1.2rem)]">Email</h3>
+              <h3 className="mb-2 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#221d17]/40">
+                Email
+              </h3>
               <a
-                className="text-[clamp(0.92rem,1.3vw,1.02rem)] text-[#465069]"
+                className="text-[clamp(0.95rem,1.3vw,1.05rem)] font-bold text-[#221d17]/80 transition hover:text-[#b3502b]"
                 href="mailto:cheurnlyheng@gmail.com"
               >
                 cheurnlyheng@gmail.com
               </a>
             </div>
             <div>
-              <h3 className="mb-2 text-[clamp(1rem,1.5vw,1.2rem)]">Links</h3>
+              <h3 className="mb-3 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#221d17]/40">
+                Links
+              </h3>
               <div className="flex gap-2.5">
-                {socials.map((social) => (
-                  <a
+                {socials.map((social, index) => (
+                  <motion.a
                     href={social.href}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full transition hover:-translate-y-0.5 hover:brightness-105"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#221d17]/15 bg-[#fffdf8] p-2 transition hover:-translate-y-1 hover:border-[#b3502b]/50"
                     key={social.label}
                     target={social.href.startsWith("http") ? "_blank" : undefined}
                     rel={social.href.startsWith("http") ? "noreferrer" : undefined}
                     aria-label={`${social.label}: ${social.value}`}
                     title={social.value}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.06 }}
                   >
                     <img
-                      className="h-8 w-8 object-contain"
+                      className="h-full w-full object-contain"
                       src={social.icon}
                       alt=""
                       aria-hidden="true"
                     />
-                  </a>
+                  </motion.a>
                 ))}
               </div>
             </div>
@@ -116,18 +132,18 @@ export function Contact() {
         </motion.div>
 
         <motion.form
-          className="grid gap-[13px] rounded-lg border border-white/65 bg-[#f9fbff]/90 px-5 pb-[22px] pt-6 shadow-[8px_10px_0_rgba(31,42,68,0.18)]"
+          className="grid gap-6 border border-[#221d17]/12 bg-[#fffdf8] px-6 py-8 sm:px-9 sm:py-10"
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="mb-0.5 text-[clamp(2rem,3.2vw,2.75rem)] leading-none text-[#1f2a44]">
-            Contact
+          <h2 className="m-0 font-serif text-[clamp(1.5rem,2.6vw,1.9rem)] font-semibold leading-none text-[#221d17]">
+            Send a message
           </h2>
 
-          <div className="grid gap-[13px] sm:grid-cols-2 sm:gap-[22px]">
+          <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
             <label className={labelClass}>
               <span className={labelTextClass}>Name</span>
               <input
@@ -180,7 +196,7 @@ export function Contact() {
           <label className={labelClass}>
             <span className={labelTextClass}>Description</span>
             <textarea
-              className={`${fieldClass} min-h-[145px] resize-y`}
+              className={`${fieldClass} min-h-[110px] resize-y`}
               name="message"
               placeholder="Hello, I am contacting here for ..."
               value={form.message}
@@ -200,25 +216,37 @@ export function Contact() {
             />
           </label>
 
-          <button
-            className="mt-1.5 inline-flex min-h-[46px] min-w-[172px] items-center justify-center gap-[9px] rounded-lg bg-gradient-to-r from-[#172338] to-[#7031aa] px-[22px] py-3 text-white shadow-[7px_8px_0_rgba(31,42,68,0.18)] transition hover:-translate-y-0.5 hover:shadow-[9px_10px_0_rgba(31,42,68,0.16)] active:translate-y-px active:scale-[0.98] active:shadow-[3px_4px_0_rgba(31,42,68,0.16)] disabled:cursor-not-allowed disabled:opacity-70 disabled:grayscale"
+          <motion.button
+            className="mt-1.5 inline-flex min-h-[48px] min-w-[172px] items-center justify-center gap-[9px] rounded-full bg-[#221d17] px-[22px] py-3 font-extrabold text-[#f6f1e6] transition hover:bg-[#b3502b] disabled:cursor-not-allowed disabled:opacity-60 disabled:grayscale"
             type="submit"
             disabled={status === "loading"}
+            whileHover={status === "loading" ? undefined : { scale: 1.02 }}
+            whileTap={status === "loading" ? undefined : { scale: 0.97 }}
           >
-            <Icon name="send" className="h-[18px] w-[18px]" />
+            {status === "loading" ? (
+              <motion.span
+                className="h-[18px] w-[18px] rounded-full border-2 border-[#f6f1e6]/40 border-t-[#f6f1e6]"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.7, repeat: Infinity, ease: "linear" }}
+              />
+            ) : (
+              <Icon name="send" className="h-[18px] w-[18px]" />
+            )}
             {status === "loading" ? "Sending..." : "Send message"}
-          </button>
+          </motion.button>
 
           {notice ? (
-            <p
-              className={`m-0 rounded-[7px] px-3 py-2.5 text-[0.95rem] leading-[1.25] ${
+            <motion.p
+              className={`m-0 border-l-2 px-3.5 py-2.5 text-[0.95rem] font-bold leading-[1.25] ${
                 status === "success"
-                  ? "bg-[#44d68d]/15 text-[#146b43]"
-                  : "bg-[#ff4c6e]/15 text-[#9b1b3a]"
+                  ? "border-[#3f7d54] bg-[#3f7d54]/10 text-[#2c5c3d]"
+                  : "border-[#b3502b] bg-[#b3502b]/10 text-[#8f3f22]"
               }`}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
             >
               {notice}
-            </p>
+            </motion.p>
           ) : null}
         </motion.form>
       </div>
