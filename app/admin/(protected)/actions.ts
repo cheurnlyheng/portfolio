@@ -7,6 +7,7 @@ import { del, put } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { ADMIN_SESSION_COOKIE } from "@/lib/auth";
+import { MAX_IMAGES_PER_PROJECT } from "@/lib/constants";
 
 export type ProjectFormState = { error?: string };
 
@@ -39,11 +40,13 @@ async function generateUniqueSlug(title: string) {
   return candidate;
 }
 
-async function uploadNewImages(formData: FormData) {
-  const files = formData
+function getIncomingFiles(formData: FormData) {
+  return formData
     .getAll("newImages")
     .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+}
 
+async function uploadFiles(files: File[]) {
   const uploaded: string[] = [];
   for (const file of files) {
     const pathname = `projects/${crypto.randomUUID()}-${file.name}`;
@@ -63,9 +66,14 @@ export async function createProjectAction(
     return { error: "Title, description, date, and GitHub link are required." };
   }
 
+  const incomingFiles = getIncomingFiles(formData);
+  if (incomingFiles.length > MAX_IMAGES_PER_PROJECT) {
+    return { error: `You can upload up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
+  }
+
   let images: string[];
   try {
-    images = await uploadNewImages(formData);
+    images = await uploadFiles(incomingFiles);
   } catch {
     return { error: "Image upload failed. Check that image storage is configured." };
   }
@@ -108,9 +116,14 @@ export async function updateProjectAction(
   const removedImages = formData.getAll("removeImages").map(String);
   const keptImages = existing.images.filter((url) => !removedImages.includes(url));
 
+  const incomingFiles = getIncomingFiles(formData);
+  if (keptImages.length + incomingFiles.length > MAX_IMAGES_PER_PROJECT) {
+    return { error: `You can have up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
+  }
+
   let newImages: string[];
   try {
-    newImages = await uploadNewImages(formData);
+    newImages = await uploadFiles(incomingFiles);
   } catch {
     return { error: "Image upload failed. Check that image storage is configured." };
   }

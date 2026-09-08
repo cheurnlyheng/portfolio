@@ -39,7 +39,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     <>
       <Navbar />
       <main className="pb-24 pt-[130px] sm:pt-[110px]">
-        <div className="mx-auto w-full max-w-[840px] px-5 sm:px-8">
+        <div className="mx-auto w-full max-w-[900px] px-5 sm:px-8">
           <a
             href="/#projects"
             className="mb-9 inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-[0.08em] text-[#221d17]/45 transition hover:text-[#b3502b]"
@@ -85,15 +85,35 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </div>
 
           {project.images.length > 0 ? (
-            <div className="grid gap-6">
-              {project.images.map((url, index) => (
+            <div className="grid gap-8">
+              <figure className="m-0">
                 <img
                   className="w-full border border-[#221d17]/12 object-cover"
-                  src={url}
-                  alt={`${project.title} screenshot ${index + 1}`}
-                  key={url}
+                  src={project.images[0]}
+                  alt={`${project.title} screenshot 1`}
                 />
-              ))}
+                <figcaption className="mt-2.5 flex items-center justify-between text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
+                  <span>Fig. 01</span>
+                  <span>{project.title}</span>
+                </figcaption>
+              </figure>
+
+              {project.images.length > 1 ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                  {project.images.slice(1).map((url, index) => (
+                    <figure className="m-0" key={url}>
+                      <img
+                        className="aspect-[4/3] w-full border border-[#221d17]/12 object-cover"
+                        src={url}
+                        alt={`${project.title} screenshot ${index + 2}`}
+                      />
+                      <figcaption className="mt-2.5 text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
+                        Fig. {String(index + 2).padStart(2, "0")}
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>

@@ -17,7 +17,7 @@ export function CoreSkills() {
           transition={{ duration: 0.5 }}
         >
           <p className="mb-3 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#b3502b]">
-            02 — Skills
+            03 — Skills
           </p>
           <h2 className="font-serif text-[clamp(1.9rem,3.4vw,2.7rem)] font-semibold leading-[1.1] text-[#221d17]">
             What I bring to a project

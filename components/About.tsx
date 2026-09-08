@@ -36,7 +36,7 @@ export function About() {
         >
           <div>
             <p className="mb-3 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#b3502b]">
-              01 — About
+              02 — About
             </p>
             <h2 className="font-serif text-[clamp(1.9rem,3.4vw,2.7rem)] font-semibold leading-[1.1] text-[#221d17]">
               A quick look at how I think
