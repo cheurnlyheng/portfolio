@@ -34,7 +34,7 @@ export const coreSkills: CoreSkill[] = [
   {
     title: "Tools",
     icon: "tools",
-    items: ["PgAdmin", "GitHub", "Postman", "VS Code", "IntelliJ IDEA"],
+    items: ["Render","Vercel","Resend","Neon","SupaBase","PgAdmin", "GitHub", "Postman", "VS Code", "IntelliJ IDEA",],
   },
 ];
 

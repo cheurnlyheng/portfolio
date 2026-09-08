@@ -6,7 +6,7 @@ import { AnimatePresence, motion, type Variants } from "framer-motion";
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
-const roles = ["Full-Stack Developer", "UI/UX Designer", "Problem Solver", "Lifelong Learner"];
+const roles = ["Full-Stack Developer", "UI/UX Designer", "Problem Solver", "Digital Marketing", "QA & WebApp Tester"];
 
 const textVariants: Variants = {
   hidden: { opacity: 0, y: 22 },
@@ -104,7 +104,7 @@ export function Hero() {
             variants={textVariants}
           >
             I design and build clean, functional digital experiences — starting from
-            Figma wireframes and ending in production-ready code.
+            Figma wireframes and ending in production-ready code and testing.
           </motion.p>
 
           <motion.div className="mt-10 flex flex-wrap items-center gap-6" variants={textVariants}>
@@ -144,7 +144,7 @@ export function Hero() {
           </div>
           <p className="mt-3 flex items-center justify-between text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
             <span>Fig. 01</span>
-            <span>RUPP · UI/UX + Code</span>
+            <span>RUPP · UI/UX + Code + Test</span>
           </p>
         </motion.div>
       </div>
