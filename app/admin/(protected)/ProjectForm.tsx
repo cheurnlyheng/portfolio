@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useState } from "react";
+import { upload } from "@vercel/blob/client";
 import type { ProjectFormState } from "./actions";
 import { MAX_IMAGES_PER_PROJECT } from "@/lib/constants";
 
@@ -19,7 +20,12 @@ type ProjectFormProps = {
   submitLabel: string;
 };
 
-type StagedImage = { file: File; previewUrl: string };
+type StagedImage = {
+  id: string;
+  previewUrl: string;
+  status: "uploading" | "done" | "error";
+  url?: string;
+};
 
 const labelClass = "grid gap-[6px]";
 const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#221d17]/45";
@@ -42,34 +48,38 @@ export function ProjectForm({
   const visibleExisting = existingImages.filter((url) => !removedExisting.includes(url));
   const totalCount = visibleExisting.length + staged.length;
   const remainingSlots = Math.max(0, MAX_IMAGES_PER_PROJECT - totalCount);
+  const isUploading = staged.some((item) => item.status === "uploading");
 
-  const syncFileInput = (files: File[]) => {
-    const dataTransfer = new DataTransfer();
-    files.forEach((file) => dataTransfer.items.add(file));
-    if (fileInputRef.current) {
-      fileInputRef.current.files = dataTransfer.files;
+  const handleFilesSelected = async (fileList: FileList | null) => {
+    if (!fileList || remainingSlots === 0) return;
+    const files = Array.from(fileList).slice(0, remainingSlots);
+
+    for (const file of files) {
+      const id = crypto.randomUUID();
+      const previewUrl = URL.createObjectURL(file);
+      setStaged((previous) => [...previous, { id, previewUrl, status: "uploading" }]);
+
+      try {
+        const blob = await upload(file.name, file, {
+          access: "public",
+          handleUploadUrl: "/api/admin/upload",
+        });
+        setStaged((previous) =>
+          previous.map((item) => (item.id === id ? { ...item, status: "done", url: blob.url } : item)),
+        );
+      } catch {
+        setStaged((previous) =>
+          previous.map((item) => (item.id === id ? { ...item, status: "error" } : item)),
+        );
+      }
     }
   };
 
-  const handleFilesSelected = (fileList: FileList | null) => {
-    if (!fileList || remainingSlots === 0) return;
-    const incoming = Array.from(fileList)
-      .slice(0, remainingSlots)
-      .map((file) => ({ file, previewUrl: URL.createObjectURL(file) }));
-
+  const removeStaged = (id: string) => {
     setStaged((previous) => {
-      const next = [...previous, ...incoming];
-      syncFileInput(next.map((item) => item.file));
-      return next;
-    });
-  };
-
-  const removeStaged = (index: number) => {
-    setStaged((previous) => {
-      URL.revokeObjectURL(previous[index].previewUrl);
-      const next = previous.filter((_, i) => i !== index);
-      syncFileInput(next.map((item) => item.file));
-      return next;
+      const target = previous.find((item) => item.id === id);
+      if (target) URL.revokeObjectURL(target.previewUrl);
+      return previous.filter((item) => item.id !== id);
     });
   };
 
@@ -156,16 +166,30 @@ export function ProjectForm({
             </div>
           ))}
 
-          {staged.map((item, index) => (
+          {staged.map((item) => (
             <div
               className="relative aspect-square overflow-hidden rounded-lg border border-[#221d17]/15"
-              key={item.previewUrl}
+              key={item.id}
             >
-              <img className="h-full w-full object-cover" src={item.previewUrl} alt="" />
+              <img
+                className={`h-full w-full object-cover ${item.status === "uploading" ? "opacity-40" : ""}`}
+                src={item.previewUrl}
+                alt=""
+              />
+              {item.status === "uploading" ? (
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#221d17]/25 border-t-[#b3502b]" />
+                </span>
+              ) : null}
+              {item.status === "error" ? (
+                <span className="absolute inset-0 flex items-center justify-center bg-[#b3502b]/10 text-[0.65rem] font-extrabold uppercase text-[#8f3f22]">
+                  Failed
+                </span>
+              ) : null}
               <button
                 className={removeButtonClass}
                 type="button"
-                onClick={() => removeStaged(index)}
+                onClick={() => removeStaged(item.id)}
                 aria-label="Remove image"
               >
                 ×
@@ -189,14 +213,22 @@ export function ProjectForm({
           <input key={url} type="hidden" name="removeImages" value={url} />
         ))}
 
+        {staged
+          .filter((item) => item.status === "done" && item.url)
+          .map((item) => (
+            <input key={item.id} type="hidden" name="newImageUrls" value={item.url} />
+          ))}
+
         <input
           ref={fileInputRef}
           className="hidden"
           type="file"
-          name="newImages"
           accept="image/*"
           multiple
-          onChange={(event) => handleFilesSelected(event.target.files)}
+          onChange={(event) => {
+            handleFilesSelected(event.target.files);
+            event.target.value = "";
+          }}
         />
 
         <p className="m-0 text-xs font-semibold text-[#221d17]/40">
@@ -213,9 +245,9 @@ export function ProjectForm({
       <button
         className="mt-1 inline-flex min-h-[46px] w-fit items-center justify-center rounded-full bg-[#221d17] px-7 font-extrabold text-[#f6f1e6] transition hover:bg-[#b3502b] disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
-        disabled={isPending}
+        disabled={isPending || isUploading}
       >
-        {isPending ? "Saving..." : submitLabel}
+        {isUploading ? "Uploading images..." : isPending ? "Saving..." : submitLabel}
       </button>
     </form>
   );

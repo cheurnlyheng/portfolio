@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { del, put } from "@vercel/blob";
+import { del } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { ADMIN_SESSION_COOKIE } from "@/lib/auth";
@@ -40,20 +40,11 @@ async function generateUniqueSlug(title: string) {
   return candidate;
 }
 
-function getIncomingFiles(formData: FormData) {
+function getNewImageUrls(formData: FormData) {
   return formData
-    .getAll("newImages")
-    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
-}
-
-async function uploadFiles(files: File[]) {
-  const uploaded: string[] = [];
-  for (const file of files) {
-    const pathname = `projects/${crypto.randomUUID()}-${file.name}`;
-    const blob = await put(pathname, file, { access: "public" });
-    uploaded.push(blob.url);
-  }
-  return uploaded;
+    .getAll("newImageUrls")
+    .map(String)
+    .filter((url) => url.length > 0);
 }
 
 export async function createProjectAction(
@@ -66,16 +57,9 @@ export async function createProjectAction(
     return { error: "Title, description, date, and GitHub link are required." };
   }
 
-  const incomingFiles = getIncomingFiles(formData);
-  if (incomingFiles.length > MAX_IMAGES_PER_PROJECT) {
-    return { error: `You can upload up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
-  }
-
-  let images: string[];
-  try {
-    images = await uploadFiles(incomingFiles);
-  } catch {
-    return { error: "Image upload failed. Check that image storage is configured." };
+  const images = getNewImageUrls(formData);
+  if (images.length > MAX_IMAGES_PER_PROJECT) {
+    return { error: `You can have up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
   }
 
   const slug = await generateUniqueSlug(input.title);
@@ -115,17 +99,10 @@ export async function updateProjectAction(
 
   const removedImages = formData.getAll("removeImages").map(String);
   const keptImages = existing.images.filter((url) => !removedImages.includes(url));
+  const newImages = getNewImageUrls(formData);
 
-  const incomingFiles = getIncomingFiles(formData);
-  if (keptImages.length + incomingFiles.length > MAX_IMAGES_PER_PROJECT) {
+  if (keptImages.length + newImages.length > MAX_IMAGES_PER_PROJECT) {
     return { error: `You can have up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
-  }
-
-  let newImages: string[];
-  try {
-    newImages = await uploadFiles(incomingFiles);
-  } catch {
-    return { error: "Image upload failed. Check that image storage is configured." };
   }
 
   if (removedImages.length > 0) {
