@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import type { ProjectFormState } from "./actions";
 
 type ProjectFormValues = {
@@ -14,6 +14,7 @@ type ProjectFormValues = {
 type ProjectFormProps = {
   action: (prevState: ProjectFormState | undefined, formData: FormData) => Promise<ProjectFormState>;
   defaultValues?: ProjectFormValues;
+  existingImages?: string[];
   submitLabel: string;
 };
 
@@ -22,8 +23,14 @@ const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em]
 const fieldClass =
   "w-full border-b-2 border-[#221d17]/20 bg-transparent px-0.5 py-2 font-bold text-[#221d17] outline-0 transition placeholder:text-[#221d17]/30 focus:border-[#b3502b]";
 
-export function ProjectForm({ action, defaultValues, submitLabel }: ProjectFormProps) {
+export function ProjectForm({
+  action,
+  defaultValues,
+  existingImages = [],
+  submitLabel,
+}: ProjectFormProps) {
   const [state, formAction, isPending] = useActionState(action, undefined);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   return (
     <form action={formAction} className="grid gap-6">
@@ -84,6 +91,61 @@ export function ProjectForm({ action, defaultValues, submitLabel }: ProjectFormP
           placeholder="Leave blank if it isn't deployed yet"
         />
       </label>
+
+      <div className={labelClass}>
+        <span className={labelTextClass}>Images</span>
+
+        {existingImages.length > 0 ? (
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+            {existingImages.map((url) => (
+              <label
+                className="group relative block cursor-pointer overflow-hidden rounded-lg border border-[#221d17]/15"
+                key={url}
+              >
+                <input className="peer sr-only" type="checkbox" name="removeImages" value={url} />
+                <img
+                  className="aspect-square w-full object-cover transition peer-checked:opacity-30"
+                  src={url}
+                  alt=""
+                />
+                <span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-[#221d17]/55 text-[0.7rem] font-extrabold uppercase tracking-wide text-white peer-checked:flex">
+                  Remove
+                </span>
+              </label>
+            ))}
+          </div>
+        ) : null}
+
+        <input
+          className="text-sm font-semibold text-[#221d17]/70 file:mr-3 file:rounded-full file:border-0 file:bg-[#221d17] file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-[#f6f1e6] file:transition hover:file:bg-[#b3502b]"
+          type="file"
+          name="newImages"
+          accept="image/*"
+          multiple
+          onChange={(event) => {
+            previews.forEach((url) => URL.revokeObjectURL(url));
+            const files = event.target.files ? Array.from(event.target.files) : [];
+            setPreviews(files.map((file) => URL.createObjectURL(file)));
+          }}
+        />
+        <p className="m-0 text-xs font-semibold text-[#221d17]/40">
+          {existingImages.length > 0 ? "Click an existing image to remove it. " : ""}
+          A few real screenshots work best.
+        </p>
+
+        {previews.length > 0 ? (
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+            {previews.map((url) => (
+              <img
+                className="aspect-square w-full rounded-lg border border-[#221d17]/15 object-cover"
+                src={url}
+                alt=""
+                key={url}
+              />
+            ))}
+          </div>
+        ) : null}
+      </div>
 
       {state?.error ? (
         <p className="m-0 border-l-2 border-[#b3502b] bg-[#b3502b]/10 px-3.5 py-2.5 text-[0.9rem] font-bold text-[#8f3f22]">

@@ -44,6 +44,10 @@ Projects shown in the "Selected work" section are stored in a Postgres database 
    npx prisma migrate dev --name init
    ```
 
-4. Visit `/admin`, sign in with `ADMIN_PASSWORD`, and add projects (title, description, date, GitHub link, and an optional live site link — leave it blank for projects that aren't deployed yet).
+4. Set up image uploads (screenshots shown on each project's detail page):
+   - In the Vercel dashboard: **Storage** → **Create Database** → **Blob** → create a store and link it to this project.
+   - Copy the generated token into `.env.local` as `BLOB_READ_WRITE_TOKEN`.
 
-Add the same three environment variables in Vercel's project settings for production, and run `npx prisma migrate deploy` (or let it run once against the production database) before the first deploy.
+5. Visit `/admin`, sign in with `ADMIN_PASSWORD`, and add projects — title, description, date, GitHub link, screenshots, and an optional live site link (leave it blank for projects that aren't deployed yet). Clicking a project on the site opens its own detail page at `/projects/<slug>` with the full description, screenshots, and "View code" / "Visit site" buttons.
+
+Add the same four environment variables (`DATABASE_URL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `BLOB_READ_WRITE_TOKEN`) in Vercel's project settings for production, and run `npx prisma migrate deploy` (or let it run once against the production database) before the first deploy.

@@ -30,6 +30,7 @@ export default async function EditProjectPage({
       <ProjectForm
         action={updateWithId}
         submitLabel="Save changes"
+        existingImages={project.images}
         defaultValues={{
           title: project.title,
           description: project.description,

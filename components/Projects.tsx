@@ -33,11 +33,13 @@ export async function Projects() {
         <ProjectsGrid
           projects={projects.map((project) => ({
             id: project.id,
+            slug: project.slug,
             title: project.title,
             description: project.description,
             date: project.date.toISOString(),
             githubUrl: project.githubUrl,
             liveUrl: project.liveUrl,
+            coverImage: project.images[0] ?? null,
           }))}
         />
       </div>

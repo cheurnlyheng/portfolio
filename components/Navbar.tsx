@@ -1,14 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { navItems } from "@/data/navigation";
 
 export function Navbar() {
-  const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHome = pathname === "/";
+  const [activeSection, setActiveSection] = useState(isHome ? "home" : "");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    if (!isHome) return;
+
     const sections = navItems
       .map((item) => document.querySelector(item.href))
       .filter((section): section is Element => section !== null);
@@ -28,17 +34,21 @@ export function Navbar() {
 
     sections.forEach((section) => observer.observe(section));
 
+    return () => observer.disconnect();
+  }, [isHome]);
+
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-    };
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const handleNavClick = (href: string) => {
+    if (!isHome) {
+      router.push(`/${href}`);
+      return;
+    }
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -59,7 +69,7 @@ export function Navbar() {
     >
       <div className="mx-auto flex h-[68px] w-full max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-[54px]">
         <a
-          href="#home"
+          href={isHome ? "#home" : "/#home"}
           onClick={(event) => {
             event.preventDefault();
             handleNavClick("#home");

@@ -24,7 +24,7 @@ export function Footer() {
               <li key={item.href}>
                 <a
                   className="text-sm font-bold text-[#f6f1e6]/70 transition hover:text-[#e4906c]"
-                  href={item.href}
+                  href={`/${item.href}`}
                 >
                   {item.label}
                 </a>
