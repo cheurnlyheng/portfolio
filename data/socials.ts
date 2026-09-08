@@ -5,6 +5,12 @@ export const socials: Array<{
   value: string;
 }> = [
   {
+    label: "GitHub",
+    href: "https://github.com/cheurnlyheng",
+    icon: "/icons/tech/github.svg",
+    value: "@cheurnlyheng",
+  },
+  {
     label: "Telegram",
     href: "https://t.me/Lam_mee",
     icon: "/icons/social/telegram.svg",
