@@ -42,25 +42,25 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="mx-auto w-full max-w-[900px] px-5 sm:px-8">
           <a
             href="/#projects"
-            className="mb-9 inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-[0.08em] text-[#221d17]/45 transition hover:text-[#b3502b]"
+            className="mb-9 inline-flex items-center gap-1.5 text-sm font-extrabold uppercase tracking-[0.08em] text-[#17161a]/45 transition hover:text-[#2f5d4b]"
           >
             <span aria-hidden="true">←</span> Back to projects
           </a>
 
-          <p className="mb-3 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#b3502b]">
+          <p className="mb-3 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#2f5d4b]">
             {formattedDate}
           </p>
-          <h1 className="mb-6 max-w-[680px] font-serif text-[clamp(2rem,5.5vw,2.9rem)] font-semibold leading-[1.1] text-[#221d17]">
+          <h1 className="mb-6 max-w-[680px] text-[clamp(2rem,5.5vw,2.9rem)] font-extrabold leading-[1.1] text-[#17161a]">
             {project.title}
           </h1>
 
-          <p className="mb-9 max-w-[620px] text-[clamp(1rem,1.6vw,1.15rem)] font-semibold leading-[1.65] text-[#221d17]/65">
+          <p className="mb-9 max-w-[620px] text-[clamp(1rem,1.6vw,1.15rem)] font-semibold leading-[1.65] text-[#17161a]/65">
             {project.description}
           </p>
 
           <div className="mb-12 flex flex-wrap items-center gap-4">
             <a
-              className="inline-flex min-h-[46px] items-center gap-2 rounded-full border border-[#221d17]/20 px-6 text-sm font-extrabold text-[#221d17] transition hover:border-[#221d17]/40 hover:bg-[#221d17]/[0.03]"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-full border border-[#17161a]/20 px-6 text-sm font-extrabold text-[#17161a] transition hover:border-[#17161a]/40 hover:bg-[#17161a]/[0.03]"
               href={project.githubUrl}
               target="_blank"
               rel="noreferrer"
@@ -70,7 +70,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </a>
             {project.liveUrl ? (
               <a
-                className="inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[#221d17] px-6 text-sm font-extrabold text-[#f6f1e6] transition hover:bg-[#b3502b]"
+                className="inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[#17161a] px-6 text-sm font-extrabold text-[#faf9f6] transition hover:bg-[#2f5d4b]"
                 href={project.liveUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -78,7 +78,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 Visit site <span aria-hidden="true">↗</span>
               </a>
             ) : (
-              <span className="inline-flex min-h-[46px] items-center rounded-full bg-[#221d17]/[0.06] px-6 text-sm font-extrabold text-[#221d17]/40">
+              <span className="inline-flex min-h-[46px] items-center rounded-full bg-[#17161a]/[0.06] px-6 text-sm font-extrabold text-[#17161a]/40">
                 Not deployed yet
               </span>
             )}
@@ -88,11 +88,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <div className="grid gap-8">
               <figure className="m-0">
                 <img
-                  className="w-full border border-[#221d17]/12 object-cover"
+                  className="w-full border border-[#17161a]/12 object-cover"
                   src={project.images[0]}
                   alt={`${project.title} screenshot 1`}
                 />
-                <figcaption className="mt-2.5 flex items-center justify-between text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
+                <figcaption className="mt-2.5 flex items-center justify-between text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#17161a]/40">
                   <span>Fig. 01</span>
                   <span>{project.title}</span>
                 </figcaption>
@@ -103,11 +103,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   {project.images.slice(1).map((url, index) => (
                     <figure className="m-0" key={url}>
                       <img
-                        className="aspect-[4/3] w-full border border-[#221d17]/12 object-cover"
+                        className="aspect-[4/3] w-full border border-[#17161a]/12 object-cover"
                         src={url}
                         alt={`${project.title} screenshot ${index + 2}`}
                       />
-                      <figcaption className="mt-2.5 text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
+                      <figcaption className="mt-2.5 text-[0.72rem] font-extrabold uppercase tracking-[0.1em] text-[#17161a]/40">
                         Fig. {String(index + 2).padStart(2, "0")}
                       </figcaption>
                     </figure>

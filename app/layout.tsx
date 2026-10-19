@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Nunito, Fraunces } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { BackToTop } from "@/components/BackToTop";
 
-const nunito = Nunito({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-nunito",
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  weight: ["500", "600", "700"],
+  variable: "--font-archivo",
+  weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -25,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#f6f1e6",
+  themeColor: "#faf9f6",
 };
 
 export default function RootLayout({
@@ -36,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} ${fraunces.variable} bg-[#f6f1e6] font-sans antialiased`}
+        className={`${archivo.variable} bg-[#faf9f6] font-sans antialiased`}
         suppressHydrationWarning
       >
         <ScrollProgress />

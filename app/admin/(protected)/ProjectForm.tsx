@@ -28,11 +28,11 @@ type StagedImage = {
 };
 
 const labelClass = "grid gap-[6px]";
-const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#221d17]/45";
+const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#17161a]/45";
 const fieldClass =
-  "w-full border-b-2 border-[#221d17]/20 bg-transparent px-0.5 py-2 font-bold text-[#221d17] outline-0 transition placeholder:text-[#221d17]/30 focus:border-[#b3502b]";
+  "w-full border-b-2 border-[#17161a]/20 bg-transparent px-0.5 py-2 font-bold text-[#17161a] outline-0 transition placeholder:text-[#17161a]/30 focus:border-[#2f5d4b]";
 const removeButtonClass =
-  "absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#221d17]/75 text-sm font-bold leading-none text-[#f6f1e6] transition hover:bg-[#b3502b]";
+  "absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#17161a]/75 text-sm font-bold leading-none text-[#faf9f6] transition hover:bg-[#2f5d4b]";
 
 export function ProjectForm({
   action,
@@ -146,14 +146,14 @@ export function ProjectForm({
       <div className={labelClass}>
         <div className="flex items-center justify-between">
           <span className={labelTextClass}>Images</span>
-          <span className="text-xs font-bold text-[#221d17]/40">
+          <span className="text-xs font-bold text-[#17161a]/40">
             {totalCount} / {MAX_IMAGES_PER_PROJECT}
           </span>
         </div>
 
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
           {visibleExisting.map((url) => (
-            <div className="relative aspect-square overflow-hidden rounded-lg border border-[#221d17]/15" key={url}>
+            <div className="relative aspect-square overflow-hidden rounded-lg border border-[#17161a]/15" key={url}>
               <img className="h-full w-full object-cover" src={url} alt="" />
               <button
                 className={removeButtonClass}
@@ -168,7 +168,7 @@ export function ProjectForm({
 
           {staged.map((item) => (
             <div
-              className="relative aspect-square overflow-hidden rounded-lg border border-[#221d17]/15"
+              className="relative aspect-square overflow-hidden rounded-lg border border-[#17161a]/15"
               key={item.id}
             >
               <img
@@ -178,11 +178,11 @@ export function ProjectForm({
               />
               {item.status === "uploading" ? (
                 <span className="absolute inset-0 flex items-center justify-center">
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#221d17]/25 border-t-[#b3502b]" />
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#17161a]/25 border-t-[#2f5d4b]" />
                 </span>
               ) : null}
               {item.status === "error" ? (
-                <span className="absolute inset-0 flex items-center justify-center bg-[#b3502b]/10 text-[0.65rem] font-extrabold uppercase text-[#8f3f22]">
+                <span className="absolute inset-0 flex items-center justify-center bg-[#2f5d4b]/10 text-[0.65rem] font-extrabold uppercase text-[#1c3f32]">
                   Failed
                 </span>
               ) : null}
@@ -199,7 +199,7 @@ export function ProjectForm({
 
           {remainingSlots > 0 ? (
             <button
-              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#221d17]/25 text-[#221d17]/45 transition hover:border-[#b3502b]/50 hover:text-[#b3502b]"
+              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#17161a]/25 text-[#17161a]/45 transition hover:border-[#2f5d4b]/50 hover:text-[#2f5d4b]"
               type="button"
               onClick={() => fileInputRef.current?.click()}
             >
@@ -231,19 +231,19 @@ export function ProjectForm({
           }}
         />
 
-        <p className="m-0 text-xs font-semibold text-[#221d17]/40">
+        <p className="m-0 text-xs font-semibold text-[#17161a]/40">
           Up to {MAX_IMAGES_PER_PROJECT} screenshots. Click × to remove one.
         </p>
       </div>
 
       {state?.error ? (
-        <p className="m-0 border-l-2 border-[#b3502b] bg-[#b3502b]/10 px-3.5 py-2.5 text-[0.9rem] font-bold text-[#8f3f22]">
+        <p className="m-0 border-l-2 border-[#2f5d4b] bg-[#2f5d4b]/10 px-3.5 py-2.5 text-[0.9rem] font-bold text-[#1c3f32]">
           {state.error}
         </p>
       ) : null}
 
       <button
-        className="mt-1 inline-flex min-h-[46px] w-fit items-center justify-center rounded-full bg-[#221d17] px-7 font-extrabold text-[#f6f1e6] transition hover:bg-[#b3502b] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-1 inline-flex min-h-[46px] w-fit items-center justify-center rounded-full bg-[#17161a] px-7 font-extrabold text-[#faf9f6] transition hover:bg-[#2f5d4b] disabled:cursor-not-allowed disabled:opacity-60"
         type="submit"
         disabled={isPending || isUploading}
       >

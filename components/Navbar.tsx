@@ -60,7 +60,7 @@ export function Navbar() {
     <motion.header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
         scrolled
-          ? "border-[#221d17]/12 bg-[#f6f1e6]/90 backdrop-blur-md"
+          ? "border-[#17161a]/12 bg-[#faf9f6]/90 backdrop-blur-md"
           : "border-transparent bg-transparent"
       }`}
       initial={{ y: -32, opacity: 0 }}
@@ -74,9 +74,9 @@ export function Navbar() {
             event.preventDefault();
             handleNavClick("#home");
           }}
-          className="font-serif text-[1.15rem] font-semibold italic text-[#221d17]"
+          className="text-[1.15rem] font-extrabold text-[#17161a]"
         >
-          Lyheng<span className="text-[#b3502b]">.</span>
+          Lyheng<span className="text-[#2f5d4b]">.</span>
         </a>
 
         <nav
@@ -90,7 +90,7 @@ export function Navbar() {
             return (
               <button
                 className={`relative border-0 bg-transparent py-2 text-[0.82rem] font-extrabold uppercase tracking-[0.08em] transition-colors duration-200 ${
-                  isActive ? "text-[#221d17]" : "text-[#221d17]/45 hover:text-[#221d17]/80"
+                  isActive ? "text-[#17161a]" : "text-[#17161a]/45 hover:text-[#17161a]/80"
                 }`}
                 type="button"
                 key={item.href}
@@ -101,7 +101,7 @@ export function Navbar() {
                 {isActive ? (
                   <motion.span
                     layoutId="nav-underline"
-                    className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-[#b3502b]"
+                    className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-[#2f5d4b]"
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 ) : null}
@@ -113,7 +113,7 @@ export function Navbar() {
         <button
           type="button"
           onClick={() => handleNavClick("#contact")}
-          className="inline-flex items-center gap-1.5 text-[0.82rem] font-extrabold uppercase tracking-[0.08em] text-[#221d17] transition hover:text-[#b3502b]"
+          className="inline-flex items-center gap-1.5 text-[0.82rem] font-extrabold uppercase tracking-[0.08em] text-[#17161a] transition hover:text-[#2f5d4b]"
         >
           Say hello
           <span aria-hidden="true">→</span>
@@ -121,7 +121,7 @@ export function Navbar() {
       </div>
 
       <nav
-        className="flex items-center gap-5 overflow-x-auto border-t border-[#221d17]/10 px-5 py-2.5 sm:hidden"
+        className="flex items-center gap-5 overflow-x-auto border-t border-[#17161a]/10 px-5 py-2.5 sm:hidden"
         aria-label="Main navigation"
       >
         {navItems.map((item) => {
@@ -131,7 +131,7 @@ export function Navbar() {
           return (
             <button
               className={`whitespace-nowrap border-0 bg-transparent py-1 text-[0.76rem] font-extrabold uppercase tracking-[0.06em] transition-colors duration-200 ${
-                isActive ? "text-[#b3502b]" : "text-[#221d17]/45"
+                isActive ? "text-[#2f5d4b]" : "text-[#17161a]/45"
               }`}
               type="button"
               key={item.href}

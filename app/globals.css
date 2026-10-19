@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-nunito), "Nunito", system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), "Fraunces", Georgia, serif;
+  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-serif: var(--font-archivo), "Archivo", system-ui, sans-serif;
 }
 
 html {
@@ -11,15 +11,15 @@ html {
 
 body {
   margin: 0;
-  background: #f6f1e6;
-  color: #221d17;
-  font-weight: 600;
+  background: #faf9f6;
+  color: #17161a;
+  font-weight: 500;
   letter-spacing: 0;
 }
 
 ::selection {
-  background: rgba(179, 80, 43, 0.22);
-  color: #221d17;
+  background: rgba(47, 93, 75, 0.22);
+  color: #17161a;
 }
 
 /* Custom scrollbar */
@@ -29,17 +29,17 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f6f1e6;
+  background: #faf9f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b3502b;
+  background: #2f5d4b;
   border-radius: 999px;
-  border: 2px solid #f6f1e6;
+  border: 2px solid #faf9f6;
 }
 
 * {
-  scrollbar-color: #b3502b #f6f1e6;
+  scrollbar-color: #2f5d4b #faf9f6;
   scrollbar-width: thin;
 }
 

@@ -15,5 +15,5 @@ export default async function ProtectedAdminLayout({
     redirect("/admin/login");
   }
 
-  return <div className="min-h-screen bg-[#f6f1e6]">{children}</div>;
+  return <div className="min-h-screen bg-[#faf9f6]">{children}</div>;
 }

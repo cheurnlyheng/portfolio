@@ -15,7 +15,7 @@ export type ProjectItem = {
   coverImage: string | null;
 };
 
-const INITIAL_COUNT = 4;
+const INITIAL_COUNT = 5;
 
 export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
   const [expanded, setExpanded] = useState(false);
@@ -24,82 +24,16 @@ export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="border-t border-[#17161a]/12">
         {visibleProjects.map((project, index) => (
-          <motion.article
-            className="group flex flex-col overflow-hidden border border-[#221d17]/12 bg-[#fffdf8]"
-            key={project.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-70px" }}
-            transition={{
-              duration: 0.5,
-              delay: (index % 2) * 0.08,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {project.coverImage ? (
-              <Link
-                className="block aspect-[16/10] w-full overflow-hidden border-b border-[#221d17]/12 bg-[#221d17]/[0.04]"
-                href={`/projects/${project.slug}`}
-              >
-                <img
-                  className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]"
-                  src={project.coverImage}
-                  alt=""
-                />
-              </Link>
-            ) : null}
-
-            <div className="flex flex-1 flex-col p-7">
-              <p className="mb-2 text-[0.75rem] font-extrabold uppercase tracking-[0.1em] text-[#221d17]/40">
-                {new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(
-                  new Date(project.date),
-                )}
-              </p>
-              <h3 className="mb-3 font-serif text-[1.3rem] font-semibold leading-[1.15]">
-                <Link
-                  className="text-[#221d17] transition hover:text-[#b3502b]"
-                  href={`/projects/${project.slug}`}
-                >
-                  {project.title}
-                </Link>
-              </h3>
-              <p className="mb-6 flex-1 text-[0.92rem] font-semibold leading-[1.6] text-[#221d17]/60">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap items-center gap-5 text-[0.82rem] font-extrabold uppercase tracking-[0.06em]">
-                <a
-                  className="inline-flex items-center gap-1.5 text-[#221d17] transition hover:text-[#b3502b]"
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img className="h-4 w-4" src="/icons/tech/github.svg" alt="" aria-hidden="true" />
-                  GitHub
-                </a>
-                {project.liveUrl ? (
-                  <a
-                    className="inline-flex items-center gap-1.5 text-[#b3502b] transition hover:text-[#8f3f22]"
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Live site <span aria-hidden="true">↗</span>
-                  </a>
-                ) : (
-                  <span className="text-[#221d17]/35">Not deployed yet</span>
-                )}
-              </div>
-            </div>
-          </motion.article>
+          <ProjectRow key={project.id} project={project} index={index} />
         ))}
       </div>
 
       {hiddenCount > 0 ? (
         <div className="mt-10 flex justify-center">
           <button
-            className="inline-flex items-center gap-2 rounded-full border border-[#221d17]/20 px-6 py-3 text-sm font-extrabold uppercase tracking-[0.06em] text-[#221d17] transition hover:border-[#221d17]/40 hover:bg-[#221d17]/[0.03]"
+            className="inline-flex items-center gap-2 rounded-full border border-[#17161a]/20 px-6 py-3 text-sm font-extrabold uppercase tracking-[0.06em] text-[#17161a] transition hover:border-[#17161a]/40 hover:bg-[#17161a]/[0.03]"
             type="button"
             onClick={() => {
               if (expanded) {
@@ -114,5 +48,72 @@ export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
         </div>
       ) : null}
     </div>
+  );
+}
+
+function ProjectRow({ project, index }: { project: ProjectItem; index: number }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.45, delay: Math.min(index, 4) * 0.05, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link
+        className="group relative flex flex-col gap-4 border-b border-[#17161a]/12 py-7 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:py-8"
+        href={`/projects/${project.slug}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {project.coverImage ? (
+          <img
+            className="h-14 w-14 shrink-0 rounded-sm object-cover sm:hidden"
+            src={project.coverImage}
+            alt=""
+          />
+        ) : null}
+
+        <div className="flex min-w-0 flex-1 items-baseline gap-4 sm:gap-6">
+          <span className="hidden shrink-0 text-[0.82rem] font-bold text-[#17161a]/30 sm:inline">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <h3 className="min-w-0 truncate text-[clamp(1.4rem,3.4vw,2.1rem)] font-extrabold leading-[1.1] text-[#17161a] transition-colors duration-200 group-hover:text-[#2f5d4b]">
+            {project.title}
+          </h3>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-5 pl-[1px] text-[0.8rem] font-bold uppercase tracking-[0.06em] text-[#17161a]/45 sm:gap-6">
+          <span className="hidden sm:inline">
+            {new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(new Date(project.date))}
+          </span>
+          <span className={project.liveUrl ? "text-[#2f5d4b]" : "text-[#17161a]/30"}>
+            {project.liveUrl ? "Live" : "Code only"}
+          </span>
+          <span
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#17161a]/20 text-[#17161a] transition group-hover:border-[#2f5d4b] group-hover:bg-[#2f5d4b] group-hover:text-[#faf9f6]"
+            aria-hidden="true"
+          >
+            ↗
+          </span>
+        </div>
+
+        {project.coverImage ? (
+          <motion.div
+            className="pointer-events-none absolute right-[8%] top-1/2 z-10 hidden w-[260px] -translate-y-1/2 overflow-hidden rounded-sm border border-[#17161a]/12 bg-[#ffffff] shadow-[0_18px_40px_rgba(23,22,26,0.16)] lg:block"
+            initial={false}
+            animate={{
+              opacity: hovered ? 1 : 0,
+              scale: hovered ? 1 : 0.94,
+              y: hovered ? "-50%" : "-46%",
+            }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img className="aspect-[4/3] w-full object-cover" src={project.coverImage} alt="" />
+          </motion.div>
+        ) : null}
+      </Link>
+    </motion.div>
   );
 }
