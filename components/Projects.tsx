@@ -42,10 +42,10 @@ export async function Projects() {
     >
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px] mb-12 sm:mb-16">
         <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
-          PORTFOLIO
+          PROJECTS
         </span>
         <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
-          Selected Works
+          CLIENT & ACADEMIC PROJECTS
         </h2>
         <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
           Production web applications, client solutions, and digital design systems.

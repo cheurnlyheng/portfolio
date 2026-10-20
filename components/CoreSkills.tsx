@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Database, LayoutTemplate, Palette, Server, Wrench } from "lucide-react";
+import { Bug, Database, LayoutTemplate, Palette, Server, Wrench } from "lucide-react";
 import { coreSkills } from "@/data/skills";
 import type { CoreSkill } from "@/data/skills";
 import { techStackLogos } from "@/data/skills";
@@ -13,6 +13,7 @@ const skillIcons: Record<CoreSkill["icon"], typeof Palette> = {
   backend: Server,
   database: Database,
   tools: Wrench,
+  "Software Testing": Bug,
 };
 
 export function CoreSkills() {
@@ -31,7 +32,7 @@ export function CoreSkills() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
-            CAPABILITIES
+            MAIN SKILLS
           </span>
           <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
             Core Stack &amp; Expertise
@@ -41,15 +42,15 @@ export function CoreSkills() {
           </p>
         </motion.div>
 
-        {/* 5 Skills Cards Grid */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Skills Cards Grid */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {coreSkills.map((skill, index) => {
             const SkillIcon = skillIcons[skill.icon];
 
             return (
               <motion.article
                 key={skill.title}
-                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-md hover:border-black/10 hover:-translate-y-1 transition-all flex flex-col justify-between"
+                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-md hover:border-black/10 transition-[box-shadow,border-color] flex flex-col justify-between"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-70px" }}

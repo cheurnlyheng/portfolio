@@ -18,10 +18,15 @@ const timeline = [
     label: "Vision & Objectives",
     body: "My mission is to architect complete digital experiences with frictionless user flows, purposeful hierarchy, and unwavering usability. Beyond aesthetic interfaces, I focus on helping ventures expand their digital footprint and achieve tangible business outcomes through thoughtful design systems.",
   },
+  {
+    step: "04",
+    label: "AI-Augmented Engineering",
+    body: "I work comfortably with AI tools and vibe coding to move fast, but speed never substitutes for judgment. Every AI-generated suggestion is reviewed against security best practices, existing code conventions, and design consistency before it ships — AI accelerates my workflow without compromising the quality or integrity of what I build.",
+  },
 ];
 
 const stats = [
-  { value: "RUPP", label: "University Studies", sub: "Computer Science & IT" },
+  { value: "RUPP", label: "University Studies", sub: "IT Engineering" },
   { value: "5+", label: "Tech Stacks in Daily Use", sub: "React, Next.js, Spring Boot" },
   { value: "UI/UX", label: "Design-Driven Engineering", sub: "Figma to Production Code" },
 ];
@@ -42,13 +47,13 @@ export function About() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
-            ABOUT
+            ABOUT ME
           </span>
           <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
             How I Think &amp; Build
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
-            Bridging clean UI/UX design with robust full-stack engineering.
+            Bridging clean UI/UX design with full-stack engineering and software testing.
           </p>
         </motion.div>
 
@@ -65,7 +70,7 @@ export function About() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-sm hover:border-black/10 transition-all"
+                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-sm hover:border-black/10 transition-[box-shadow,border-color]"
               >
                 <p className="m-0 text-3xl sm:text-4xl font-black tracking-tight text-[#10100F]">
                   {stat.value}
@@ -85,7 +90,7 @@ export function About() {
             {timeline.map((item, index) => (
               <motion.div
                 key={item.label}
-                className="rounded-2xl border border-black/5 bg-white/70 hover:bg-white p-6 sm:p-8 shadow-xs hover:shadow-sm hover:border-black/10 transition-all"
+                className="rounded-2xl border border-black/5 bg-white/70 hover:bg-white p-6 sm:p-8 shadow-xs hover:shadow-sm hover:border-black/10 transition-[background-color,box-shadow,border-color]"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}

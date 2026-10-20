@@ -26,7 +26,7 @@ export function Footer() {
 
             <div className="pt-2">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-[11px] font-bold text-white/70">
-                <span>Based in Phnom Penh, Cambodia • USD ($)</span>
+                <span>Based in Phnom Penh, Cambodia</span>
               </span>
             </div>
           </div>

@@ -31,16 +31,17 @@ export function HeroRotator({ slides }: { slides: HeroSlideData[] }) {
     >
       {/* Tall background image spanning full height */}
       <div className="absolute inset-0 h-full w-full overflow-hidden">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           <motion.img
             key={slide.image}
             className="absolute inset-0 h-full w-full object-cover object-top grayscale contrast-[1.08]"
+            style={{ willChange: "opacity" }}
             src={slide.image}
             alt="Cheurn Lyheng"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: smoothEase }}
+            transition={{ duration: 1.1, ease: smoothEase }}
           />
         </AnimatePresence>
 

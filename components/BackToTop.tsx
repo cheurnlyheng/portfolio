@@ -17,7 +17,7 @@ export function BackToTop() {
     <AnimatePresence>
       {visible ? (
         <motion.button
-          className="fixed bottom-6 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/85 text-[#10100F] shadow-sm backdrop-blur-md transition-all hover:bg-white hover:shadow-md sm:bottom-8 sm:right-8 active:scale-95"
+          className="fixed bottom-6 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/85 text-[#10100F] shadow-sm backdrop-blur-md transition-[background-color,box-shadow] hover:bg-white hover:shadow-md sm:bottom-8 sm:right-8"
           type="button"
           aria-label="Back to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

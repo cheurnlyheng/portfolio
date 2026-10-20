@@ -123,7 +123,7 @@ export function Contact() {
                 {socials.map((social, index) => (
                   <motion.a
                     href={social.href}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#10100F] transition-all"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#10100F] transition-[background-color,color]"
                     key={social.label}
                     target={social.href.startsWith("http") ? "_blank" : undefined}
                     rel={social.href.startsWith("http") ? "noreferrer" : undefined}
@@ -172,7 +172,7 @@ export function Contact() {
               <input
                 className={inputClass}
                 name="name"
-                placeholder="John Smith"
+                placeholder="Your name"
                 value={form.name}
                 onChange={(event) => updateField("name", event.target.value)}
                 required
@@ -183,7 +183,7 @@ export function Contact() {
               <input
                 className={inputClass}
                 name="subject"
-                placeholder="Full-Stack / UI/UX Role"
+                placeholder="Freelance project"
                 value={form.subject}
                 onChange={(event) => updateField("subject", event.target.value)}
                 required
@@ -198,7 +198,7 @@ export function Contact() {
                 className={inputClass}
                 name="email"
                 type="email"
-                placeholder="johnsmith@gmail.com"
+                placeholder="youremail@gmail.com"
                 value={form.email}
                 onChange={(event) => updateField("email", event.target.value)}
                 required
@@ -210,7 +210,7 @@ export function Contact() {
                 className={inputClass}
                 name="phone"
                 type="tel"
-                placeholder="+(855) 17400085"
+                placeholder="+12 345678"
                 value={form.phone}
                 onChange={(event) => updateField("phone", event.target.value)}
               />

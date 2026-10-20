@@ -1,6 +1,6 @@
 export type CoreSkill = {
   title: string;
-  icon: "design" | "frontend" | "backend" | "database" | "tools";
+  icon: "design" | "frontend" | "backend" | "database" | "tools" | "Software Testing";
   items: string[];
 };
 
@@ -34,7 +34,20 @@ export const coreSkills: CoreSkill[] = [
   {
     title: "Tools",
     icon: "tools",
-    items: ["Render","Vercel","Resend","Neon","SupaBase","PgAdmin", "GitHub", "Postman", "VS Code", "IntelliJ IDEA",],
+    items: ["Render","Vercel","Resend","Railway","Netlify","PgAdmin", "GitHub", "Postman","Bruno","Figma"],
+  },
+  {
+    title: "Software Testing",
+    icon: "Software Testing",
+    items: [
+      "Static Testing",
+      "Core Black Box",
+      "Basic White Box",
+      "Use-Case Testing",
+      "Bug Logging",
+      "Jira",
+      "Playwright",
+    ],
   },
 ];
 

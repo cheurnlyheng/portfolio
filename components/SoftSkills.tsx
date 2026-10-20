@@ -20,13 +20,13 @@ export function SoftSkills() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
-            BEYOND CODE
+            SOFT SKILLS
           </span>
           <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
-            How I Work &amp; Lead
+            EXTRA CAPABILLITIES
           </h2>
           <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
-            Product thinking, cross-functional communication, and craftsmanship.
+            Digital Marketing, Communication etc...
           </p>
         </motion.div>
 
