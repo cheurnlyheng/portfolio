@@ -2,68 +2,95 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { coreSkills, techStackLogos } from "@/data/skills";
-import { Icon } from "@/components/icons/Icon";
+import { Database, LayoutTemplate, Palette, Server, Wrench } from "lucide-react";
+import { coreSkills } from "@/data/skills";
+import type { CoreSkill } from "@/data/skills";
+import { techStackLogos } from "@/data/skills";
+
+const skillIcons: Record<CoreSkill["icon"], typeof Palette> = {
+  design: Palette,
+  frontend: LayoutTemplate,
+  backend: Server,
+  database: Database,
+  tools: Wrench,
+};
 
 export function CoreSkills() {
   return (
-    <section className="relative scroll-mt-28 border-t border-[#17161a]/10 py-20 sm:scroll-mt-20 lg:py-24" id="skills">
+    <section
+      className="relative scroll-mt-28 border-t border-black/5 py-20 sm:scroll-mt-20 lg:py-28"
+      id="skills"
+    >
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px]">
+        {/* Section Header */}
         <motion.div
-          className="mb-14 flex items-end gap-4 sm:gap-6"
+          className="mb-14 sm:mb-20"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-[clamp(2.6rem,6vw,4.2rem)] font-black leading-none text-[#17161a]/10">03</span>
-          <div>
-            <p className="mb-2 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#2f5d4b]">Skills</p>
-            <h2 className="text-[clamp(1.9rem,3.6vw,2.9rem)] font-extrabold leading-[1.05] text-[#17161a]">
-              What I bring to a project
-            </h2>
-          </div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
+            CAPABILITIES
+          </span>
+          <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
+            Core Stack &amp; Expertise
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
+            The technologies, frameworks, and architecture patterns I rely on daily.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-          {coreSkills.map((skill, index) => (
-            <motion.article
-              key={skill.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-70px" }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.07,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <div className="mb-4 flex items-center gap-2.5 text-[#2f5d4b]">
-                <Icon name={skill.icon} className="h-[18px] w-[18px]" />
-                <h3 className="m-0 text-[1.02rem] font-extrabold leading-[1.15] text-[#17161a]">{skill.title}</h3>
-              </div>
-              <ul className="m-0 list-none p-0">
-                {skill.items.map((item) => (
-                  <li
-                    className="py-1 text-[0.86rem] font-semibold leading-[1.5] text-[#17161a]/55"
-                    key={item}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          ))}
+        {/* 5 Skills Cards Grid */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          {coreSkills.map((skill, index) => {
+            const SkillIcon = skillIcons[skill.icon];
+
+            return (
+              <motion.article
+                key={skill.title}
+                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-md hover:border-black/10 hover:-translate-y-1 transition-all flex flex-col justify-between"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-70px" }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.07,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <div>
+                  <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-[#10100F] text-white shadow-xs">
+                    <SkillIcon className="h-4 w-4" strokeWidth={2} />
+                  </span>
+                  <h3 className="m-0 mb-3 text-xs font-black uppercase tracking-wider text-[#10100F]">
+                    {skill.title}
+                  </h3>
+                  <ul className="m-0 list-none p-0 divide-y divide-black/5">
+                    {skill.items.map((item) => (
+                      <li
+                        className="py-1.5 text-xs font-semibold leading-relaxed text-[#10100F]/70 first:pt-0 last:pb-0"
+                        key={item}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
 
+        {/* Seamless Infinite Tech Stack Marquee */}
         <div
-          className="group relative mt-16 overflow-hidden py-5 before:absolute before:inset-y-0 before:left-0 before:z-[1] before:w-[52px] before:bg-[linear-gradient(90deg,#faf9f6,transparent)] before:content-[''] after:absolute after:inset-y-0 after:right-0 after:z-[1] after:w-[52px] after:bg-[linear-gradient(270deg,#faf9f6,transparent)] after:content-[''] sm:before:w-[110px] sm:after:w-[110px]"
+          className="group relative mt-16 sm:mt-20 overflow-hidden py-6 rounded-2xl border border-black/5 bg-white/50 backdrop-blur-xs before:absolute before:inset-y-0 before:left-0 before:z-[1] before:w-[60px] before:bg-gradient-to-r before:from-[#fbfbfb] before:to-transparent before:content-[''] after:absolute after:inset-y-0 after:right-0 after:z-[1] after:w-[60px] after:bg-gradient-to-l after:from-[#fbfbfb] after:to-transparent after:content-[''] sm:before:w-[120px] sm:after:w-[120px]"
           aria-label="Technology stack logos"
         >
-          <div className="flex w-max animate-[logo-marquee_38s_linear_infinite] items-center gap-8 group-hover:[animation-play-state:paused]">
-            {[...techStackLogos, ...techStackLogos].map((logo, index) => (
+          <div className="flex w-max animate-[logo-marquee_32s_linear_infinite] items-center gap-8 sm:gap-10 group-hover:[animation-play-state:paused]">
+            {[...techStackLogos, ...techStackLogos, ...techStackLogos].map((logo, index) => (
               <div
-                className="flex shrink-0 items-center gap-2 text-sm font-bold text-[#17161a]/55"
+                className="flex shrink-0 items-center gap-2.5 px-3 py-1.5 rounded-full bg-white border border-black/5 shadow-xs text-xs font-bold uppercase tracking-wider text-[#10100F]/75 transition-all hover:border-black/20"
                 key={`${logo.label}-${index}`}
               >
                 <TechLogo label={logo.label} src={logo.icon} />
@@ -87,14 +114,14 @@ function TechLogo({ label, src }: { label: string; src: string }) {
 
   return (
     <span
-      className="inline-flex h-6 w-6 min-w-6 items-center justify-center rounded-full border border-[#17161a]/15 bg-[#ffffff] text-[0.62rem] font-extrabold text-[#17161a]/70"
+      className="inline-flex h-5 w-5 min-w-5 items-center justify-center rounded-full bg-[#10100F]/5 text-[0.6rem] font-black text-[#10100F]/80"
       aria-hidden="true"
     >
       {failed ? (
         initials
       ) : (
         <img
-          className="h-[14px] w-[14px] object-contain grayscale"
+          className="h-3.5 w-3.5 object-contain grayscale"
           src={src}
           alt=""
           onError={() => setFailed(true)}

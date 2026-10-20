@@ -18,13 +18,32 @@ export async function logoutAction() {
 }
 
 function parseProjectForm(formData: FormData) {
+  const rawDisplayMode = String(formData.get("displayMode") ?? "BANNER");
   return {
     title: String(formData.get("title") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
     date: String(formData.get("date") ?? ""),
     githubUrl: String(formData.get("githubUrl") ?? "").trim(),
     liveUrl: String(formData.get("liveUrl") ?? "").trim(),
-  };
+    displayMode: rawDisplayMode === "SPLIT" ? "SPLIT" : "BANNER",
+  } as const;
+}
+
+async function assertSplitLimit(displayMode: "BANNER" | "SPLIT", excludeId?: string) {
+  if (displayMode !== "SPLIT") return null;
+
+  const splitCount = await prisma.project.count({
+    where: {
+      displayMode: "SPLIT",
+      ...(excludeId ? { id: { not: excludeId } } : {}),
+    },
+  });
+
+  if (splitCount >= 2) {
+    return "Only 2 projects can use Split mode at a time. Switch another project to Banner first.";
+  }
+
+  return null;
 }
 
 async function generateUniqueSlug(title: string) {
@@ -62,6 +81,11 @@ export async function createProjectAction(
     return { error: `You can have up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
   }
 
+  const splitLimitError = await assertSplitLimit(input.displayMode);
+  if (splitLimitError) {
+    return { error: splitLimitError };
+  }
+
   const slug = await generateUniqueSlug(input.title);
 
   await prisma.project.create({
@@ -73,6 +97,7 @@ export async function createProjectAction(
       githubUrl: input.githubUrl,
       liveUrl: input.liveUrl || null,
       images,
+      displayMode: input.displayMode,
     },
   });
 
@@ -105,6 +130,11 @@ export async function updateProjectAction(
     return { error: `You can have up to ${MAX_IMAGES_PER_PROJECT} images per project.` };
   }
 
+  const splitLimitError = await assertSplitLimit(input.displayMode, id);
+  if (splitLimitError) {
+    return { error: splitLimitError };
+  }
+
   if (removedImages.length > 0) {
     try {
       await del(removedImages);
@@ -122,6 +152,7 @@ export async function updateProjectAction(
       githubUrl: input.githubUrl,
       liveUrl: input.liveUrl || null,
       images: [...keptImages, ...newImages],
+      displayMode: input.displayMode,
     },
   });
 

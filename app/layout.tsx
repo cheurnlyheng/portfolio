@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { BackToTop } from "@/components/BackToTop";
 
-const archivo = Archivo({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-plus-jakarta-sans",
   weight: ["400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
   display: "swap",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#faf9f6",
+  themeColor: "#fbfbfb",
 };
 
 export default function RootLayout({
@@ -28,9 +28,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={plusJakartaSans.variable}>
       <body
-        className={`${archivo.variable} bg-[#faf9f6] font-sans antialiased`}
+        className="bg-[#fbfbfb] font-sans antialiased"
         suppressHydrationWarning
       >
         <ScrollProgress />

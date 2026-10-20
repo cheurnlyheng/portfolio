@@ -7,17 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Project {
+enum ProjectDisplayMode {
+  BANNER
+  SPLIT
+}
+
+model HeroSlide {
   id          String   @id @default(cuid())
-  slug        String   @unique
+  image       String
+  tagline     String
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+model Project {
+  id          String             @id @default(cuid())
+  slug        String             @unique
   title       String
   description String
   date        DateTime
   githubUrl   String
   liveUrl     String?
-  images      String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  images      String[]           @default([])
+  displayMode ProjectDisplayMode @default(BANNER)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 
   @@index([date])
 }

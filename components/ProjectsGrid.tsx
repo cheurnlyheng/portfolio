@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 export type ProjectItem = {
   id: string;
@@ -15,35 +15,37 @@ export type ProjectItem = {
   coverImage: string | null;
 };
 
-const INITIAL_COUNT = 5;
+const INITIAL_COUNT = 2;
 
 export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
   const [expanded, setExpanded] = useState(false);
   const visibleProjects = expanded ? projects : projects.slice(0, INITIAL_COUNT);
   const hiddenCount = projects.length - INITIAL_COUNT;
 
+  if (projects.length === 0) return null;
+
   return (
     <div>
-      <div className="border-t border-[#17161a]/12">
-        {visibleProjects.map((project, index) => (
-          <ProjectRow key={project.id} project={project} index={index} />
-        ))}
-      </div>
+      {visibleProjects.map((project) => (
+        <ProjectFeature key={project.id} project={project} />
+      ))}
 
       {hiddenCount > 0 ? (
-        <div className="mt-10 flex justify-center">
+        <div className="relative z-10 flex justify-center bg-[#fbfbfb] py-14">
           <button
-            className="inline-flex items-center gap-2 rounded-full border border-[#17161a]/20 px-6 py-3 text-sm font-extrabold uppercase tracking-[0.06em] text-[#17161a] transition hover:border-[#17161a]/40 hover:bg-[#17161a]/[0.03]"
+            className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#10100F] shadow-sm hover:border-black/30 hover:shadow-md transition-all active:scale-95"
             type="button"
             onClick={() => {
               if (expanded) {
-                document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                document
+                  .getElementById("projects")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" });
               }
               setExpanded((current) => !current);
             }}
           >
-            {expanded ? "Show less" : `Show ${hiddenCount} more`}
-            <span aria-hidden="true">{expanded ? "↑" : "↓"}</span>
+            <span>{expanded ? "Show Less Works" : `View ${hiddenCount} More Projects`}</span>
+            <span aria-hidden="true" className="font-mono text-sm">{expanded ? "↑" : "↓"}</span>
           </button>
         </div>
       ) : null}
@@ -51,69 +53,95 @@ export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
   );
 }
 
-function ProjectRow({ project, index }: { project: ProjectItem; index: number }) {
-  const [hovered, setHovered] = useState(false);
+/* Tall sticky banner matching Graphites HeroBanner structure */
+function ProjectFeature({ project }: { project: ProjectItem }) {
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric",
+  }).format(new Date(project.date));
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.45, delay: Math.min(index, 4) * 0.05, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <Link
-        className="group relative flex flex-col gap-4 border-b border-[#17161a]/12 py-7 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:py-8"
-        href={`/projects/${project.slug}`}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
+    <section className="relative h-[160vh] w-full border-b border-black/10 sm:h-[175vh]">
+      {/* Tall background image */}
+      <div className="absolute inset-0 h-full w-full overflow-hidden bg-[#10100F]/[0.05]">
         {project.coverImage ? (
           <img
-            className="h-14 w-14 shrink-0 rounded-sm object-cover sm:hidden"
+            className="h-full w-full object-cover object-top grayscale contrast-[1.05]"
             src={project.coverImage}
-            alt=""
+            alt={project.title}
           />
         ) : null}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20 pointer-events-none"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-black/10 pointer-events-none" aria-hidden="true" />
+      </div>
 
-        <div className="flex min-w-0 flex-1 items-baseline gap-4 sm:gap-6">
-          <span className="hidden shrink-0 text-[0.82rem] font-bold text-[#17161a]/30 sm:inline">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <h3 className="min-w-0 truncate text-[clamp(1.4rem,3.4vw,2.1rem)] font-extrabold leading-[1.1] text-[#17161a] transition-colors duration-200 group-hover:text-[#2f5d4b]">
-            {project.title}
-          </h3>
+      {/* Sticky text overlay that follows the screen until the tall image ends */}
+      <div className="sticky top-0 flex h-screen w-full flex-col justify-end p-6 pb-14 sm:p-12 md:p-16 lg:p-20 z-10 pointer-events-none">
+        <div className="max-w-4xl space-y-4 pointer-events-auto">
+          {/* Category & Status Badges */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/90">
+              {formattedDate}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/90">
+              {project.liveUrl ? "PRODUCTION DEPLOYMENT" : "SOURCE AVAILABLE"}
+            </span>
+          </div>
+
+          {/* Title */}
+          <Link href={`/projects/${project.slug}`}>
+            <h3 className="text-white/95 font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[0.92] drop-shadow-md hover:text-white/80 transition-colors">
+              {project.title}
+            </h3>
+          </Link>
+
+          {/* Description */}
+          <p className="max-w-2xl text-base sm:text-lg lg:text-xl font-medium leading-relaxed text-white/80 drop-shadow-sm">
+            {project.description}
+          </p>
+
+          {/* Action Pills */}
+          <div className="pt-2 flex flex-wrap items-center gap-3">
+            <Link
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/85 hover:bg-white backdrop-blur-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#10100F] shadow-sm hover:shadow-md transition-all active:scale-95"
+              href={`/projects/${project.slug}`}
+            >
+              <span>View More Detail</span>
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
+            </Link>
+
+            {project.liveUrl && (
+              <a
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/20 hover:bg-white backdrop-blur-md px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:text-[#10100F] transition-all active:scale-95"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Live Site</span>
+                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
+              </a>
+            )}
+
+            <a
+              className="group/gh inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20 hover:bg-white backdrop-blur-md text-white hover:text-[#10100F] transition-all active:scale-95"
+              href={project.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${project.title} on GitHub`}
+            >
+              <img
+                className="h-4 w-4 invert transition group-hover/gh:invert-0"
+                src="/icons/tech/github.svg"
+                alt=""
+                aria-hidden="true"
+              />
+            </a>
+          </div>
         </div>
-
-        <div className="flex shrink-0 items-center gap-5 pl-[1px] text-[0.8rem] font-bold uppercase tracking-[0.06em] text-[#17161a]/45 sm:gap-6">
-          <span className="hidden sm:inline">
-            {new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(new Date(project.date))}
-          </span>
-          <span className={project.liveUrl ? "text-[#2f5d4b]" : "text-[#17161a]/30"}>
-            {project.liveUrl ? "Live" : "Code only"}
-          </span>
-          <span
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[#17161a]/20 text-[#17161a] transition group-hover:border-[#2f5d4b] group-hover:bg-[#2f5d4b] group-hover:text-[#faf9f6]"
-            aria-hidden="true"
-          >
-            ↗
-          </span>
-        </div>
-
-        {project.coverImage ? (
-          <motion.div
-            className="pointer-events-none absolute right-[8%] top-1/2 z-10 hidden w-[260px] -translate-y-1/2 overflow-hidden rounded-sm border border-[#17161a]/12 bg-[#ffffff] shadow-[0_18px_40px_rgba(23,22,26,0.16)] lg:block"
-            initial={false}
-            animate={{
-              opacity: hovered ? 1 : 0,
-              scale: hovered ? 1 : 0.94,
-              y: hovered ? "-50%" : "-46%",
-            }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <img className="aspect-[4/3] w-full object-cover" src={project.coverImage} alt="" />
-          </motion.div>
-        ) : null}
-      </Link>
-    </motion.div>
+      </div>
+    </section>
   );
 }

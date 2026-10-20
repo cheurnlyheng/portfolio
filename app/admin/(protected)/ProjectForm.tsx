@@ -2,6 +2,7 @@
 
 import { useActionState, useRef, useState } from "react";
 import { upload } from "@vercel/blob/client";
+import { Plus, X, UploadCloud, CheckCircle2 } from "lucide-react";
 import type { ProjectFormState } from "./actions";
 import { MAX_IMAGES_PER_PROJECT } from "@/lib/constants";
 
@@ -11,6 +12,7 @@ type ProjectFormValues = {
   date: string;
   githubUrl: string;
   liveUrl: string;
+  displayMode: "BANNER" | "SPLIT";
 };
 
 type ProjectFormProps = {
@@ -26,13 +28,6 @@ type StagedImage = {
   status: "uploading" | "done" | "error";
   url?: string;
 };
-
-const labelClass = "grid gap-[6px]";
-const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#17161a]/45";
-const fieldClass =
-  "w-full border-b-2 border-[#17161a]/20 bg-transparent px-0.5 py-2 font-bold text-[#17161a] outline-0 transition placeholder:text-[#17161a]/30 focus:border-[#2f5d4b]";
-const removeButtonClass =
-  "absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#17161a]/75 text-sm font-bold leading-none text-[#faf9f6] transition hover:bg-[#2f5d4b]";
 
 export function ProjectForm({
   action,
@@ -83,130 +78,217 @@ export function ProjectForm({
     });
   };
 
+  const labelClass = "block text-[11px] font-bold uppercase tracking-wider text-[#10100F]/60 mb-2";
+  const inputClass =
+    "w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm font-semibold text-[#10100F] placeholder:text-[#10100F]/30 focus:border-[#10100F] focus:outline-none transition-all";
+
   return (
-    <form action={formAction} className="grid gap-6">
-      <label className={labelClass}>
-        <span className={labelTextClass}>Title</span>
-        <input
-          className={fieldClass}
-          name="title"
-          defaultValue={defaultValues?.title}
-          placeholder="My Awesome Project"
-          required
-        />
-      </label>
+    <form action={formAction} className="space-y-8">
+      {/* Basic Info Card */}
+      <div className="rounded-3xl border border-black/5 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+        <h2 className="text-xs font-black uppercase tracking-widest text-[#10100F]/50">
+          General Information
+        </h2>
 
-      <label className={labelClass}>
-        <span className={labelTextClass}>Description</span>
-        <textarea
-          className={`${fieldClass} min-h-[110px] resize-y`}
-          name="description"
-          defaultValue={defaultValues?.description}
-          placeholder="What it does, and what you used to build it."
-          required
-        />
-      </label>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        <label className={labelClass}>
-          <span className={labelTextClass}>Date</span>
+        <div className="space-y-1.5">
+          <label className={labelClass}>Project Title</label>
           <input
-            className={fieldClass}
-            type="date"
-            name="date"
-            defaultValue={defaultValues?.date}
+            className={inputClass}
+            name="title"
+            defaultValue={defaultValues?.title}
+            placeholder="e.g. Graphites"
             required
           />
-        </label>
+        </div>
 
-        <label className={labelClass}>
-          <span className={labelTextClass}>GitHub URL</span>
+        <div className="space-y-1.5">
+          <label className={labelClass}>Description / Summary</label>
+          <textarea
+            className={`${inputClass} min-h-[110px] resize-y`}
+            name="description"
+            defaultValue={defaultValues?.description}
+            placeholder="Concise description of the product, tech stack, and your role."
+            required
+          />
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-1.5">
+            <label className={labelClass}>Date of Completion / Launch</label>
+            <input
+              className={inputClass}
+              type="date"
+              name="date"
+              defaultValue={defaultValues?.date}
+              required
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className={labelClass}>GitHub Repository URL</label>
+            <input
+              className={inputClass}
+              type="url"
+              name="githubUrl"
+              defaultValue={defaultValues?.githubUrl}
+              placeholder="https://github.com/cheurnlyheng/..."
+              required
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className={labelClass}>Live Site URL (Optional)</label>
           <input
-            className={fieldClass}
+            className={inputClass}
             type="url"
-            name="githubUrl"
-            defaultValue={defaultValues?.githubUrl}
-            placeholder="https://github.com/..."
-            required
+            name="liveUrl"
+            defaultValue={defaultValues?.liveUrl}
+            placeholder="https://example.com"
           />
-        </label>
+          <p className="text-[11px] text-[#10100F]/45">
+            Leave blank if the project is open-source code only and not deployed.
+          </p>
+        </div>
       </div>
 
-      <label className={labelClass}>
-        <span className={labelTextClass}>Live site URL (optional)</span>
-        <input
-          className={fieldClass}
-          type="url"
-          name="liveUrl"
-          defaultValue={defaultValues?.liveUrl}
-          placeholder="Leave blank if it isn't deployed yet"
-        />
-      </label>
+      {/* Display Mode Card */}
+      <div className="rounded-3xl border border-black/5 bg-white p-6 sm:p-8 shadow-xs space-y-4">
+        <div>
+          <h2 className="text-xs font-black uppercase tracking-widest text-[#10100F]/50">
+            Display Mode
+          </h2>
+          <p className="mt-1 text-xs text-[#10100F]/60">
+            Choose how this project appears on the home page showcase.
+          </p>
+        </div>
 
-      <div className={labelClass}>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-black/10 p-4 has-[:checked]:border-[#10100F] has-[:checked]:bg-black/[0.02] transition-all">
+            <input
+              type="radio"
+              name="displayMode"
+              value="BANNER"
+              className="mt-1"
+              defaultChecked={(defaultValues?.displayMode ?? "BANNER") === "BANNER"}
+            />
+            <div>
+              <span className="block text-sm font-black uppercase tracking-tight text-[#10100F]">
+                Banner (Full Width)
+              </span>
+              <span className="mt-0.5 block text-xs text-[#10100F]/50 font-medium">
+                Cinematic tall section pinned on scroll like the Hero.
+              </span>
+            </div>
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-black/10 p-4 has-[:checked]:border-[#10100F] has-[:checked]:bg-black/[0.02] transition-all">
+            <input
+              type="radio"
+              name="displayMode"
+              value="SPLIT"
+              className="mt-1"
+              defaultChecked={defaultValues?.displayMode === "SPLIT"}
+            />
+            <div>
+              <span className="block text-sm font-black uppercase tracking-tight text-[#10100F]">
+                Split (Side-by-Side)
+              </span>
+              <span className="mt-0.5 block text-xs text-[#10100F]/50 font-medium">
+                Featured 2-column card edge-to-edge (max 2 active).
+              </span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      {/* Screenshots Card */}
+      <div className="rounded-3xl border border-black/5 bg-white p-6 sm:p-8 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
-          <span className={labelTextClass}>Images</span>
-          <span className="text-xs font-bold text-[#17161a]/40">
+          <div>
+            <h2 className="text-xs font-black uppercase tracking-widest text-[#10100F]/50">
+              Screenshots &amp; Visuals
+            </h2>
+            <p className="mt-0.5 text-xs text-[#10100F]/60">
+              The first image is used as the cover. Up to {MAX_IMAGES_PER_PROJECT} images.
+            </p>
+          </div>
+          <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#10100F]/60">
             {totalCount} / {MAX_IMAGES_PER_PROJECT}
           </span>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
-          {visibleExisting.map((url) => (
-            <div className="relative aspect-square overflow-hidden rounded-lg border border-[#17161a]/15" key={url}>
-              <img className="h-full w-full object-cover" src={url} alt="" />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {/* Existing Images */}
+          {visibleExisting.map((url, idx) => (
+            <div
+              className="group relative aspect-video overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea]"
+              key={url}
+            >
+              <img className="h-full w-full object-cover object-top" src={url} alt="" />
+              {idx === 0 && (
+                <span className="absolute left-2 top-2 rounded-full bg-[#10100F] px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-white">
+                  Cover
+                </span>
+              )}
               <button
-                className={removeButtonClass}
+                className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/80 text-white hover:bg-black transition-all shadow-xs"
                 type="button"
                 onClick={() => setRemovedExisting((previous) => [...previous, url])}
                 aria-label="Remove image"
               >
-                ×
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           ))}
 
+          {/* Staged Uploading Images */}
           {staged.map((item) => (
             <div
-              className="relative aspect-square overflow-hidden rounded-lg border border-[#17161a]/15"
+              className="relative aspect-video overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea]"
               key={item.id}
             >
               <img
-                className={`h-full w-full object-cover ${item.status === "uploading" ? "opacity-40" : ""}`}
+                className={`h-full w-full object-cover object-top ${
+                  item.status === "uploading" ? "opacity-30" : ""
+                }`}
                 src={item.previewUrl}
                 alt=""
               />
-              {item.status === "uploading" ? (
+              {item.status === "uploading" && (
                 <span className="absolute inset-0 flex items-center justify-center">
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#17161a]/25 border-t-[#2f5d4b]" />
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-black/20 border-t-[#10100F]" />
                 </span>
-              ) : null}
-              {item.status === "error" ? (
-                <span className="absolute inset-0 flex items-center justify-center bg-[#2f5d4b]/10 text-[0.65rem] font-extrabold uppercase text-[#1c3f32]">
-                  Failed
+              )}
+              {item.status === "done" && (
+                <span className="absolute left-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
                 </span>
-              ) : null}
+              )}
               <button
-                className={removeButtonClass}
+                className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/80 text-white hover:bg-black transition-all shadow-xs"
                 type="button"
                 onClick={() => removeStaged(item.id)}
                 aria-label="Remove image"
               >
-                ×
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
           ))}
 
-          {remainingSlots > 0 ? (
+          {/* Add Image Slot */}
+          {remainingSlots > 0 && (
             <button
-              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[#17161a]/25 text-[#17161a]/45 transition hover:border-[#2f5d4b]/50 hover:text-[#2f5d4b]"
+              className="flex aspect-video flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed border-black/15 bg-black/[0.01] text-[#10100F]/50 hover:border-black/30 hover:bg-black/[0.03] transition-all"
               type="button"
               onClick={() => fileInputRef.current?.click()}
             >
-              <span className="text-xl leading-none">+</span>
-              <span className="text-[0.65rem] font-extrabold uppercase tracking-wide">Add</span>
+              <UploadCloud className="h-5 w-5" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">
+                Upload ({remainingSlots} left)
+              </span>
             </button>
-          ) : null}
+          )}
         </div>
 
         {removedExisting.map((url) => (
@@ -230,25 +312,31 @@ export function ProjectForm({
             event.target.value = "";
           }}
         />
-
-        <p className="m-0 text-xs font-semibold text-[#17161a]/40">
-          Up to {MAX_IMAGES_PER_PROJECT} screenshots. Click × to remove one.
-        </p>
       </div>
 
-      {state?.error ? (
-        <p className="m-0 border-l-2 border-[#2f5d4b] bg-[#2f5d4b]/10 px-3.5 py-2.5 text-[0.9rem] font-bold text-[#1c3f32]">
+      {/* Error Message */}
+      {state?.error && (
+        <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-4 text-xs font-bold text-red-600">
           {state.error}
-        </p>
-      ) : null}
+        </div>
+      )}
 
-      <button
-        className="mt-1 inline-flex min-h-[46px] w-fit items-center justify-center rounded-full bg-[#17161a] px-7 font-extrabold text-[#faf9f6] transition hover:bg-[#2f5d4b] disabled:cursor-not-allowed disabled:opacity-60"
-        type="submit"
-        disabled={isPending || isUploading}
-      >
-        {isUploading ? "Uploading images..." : isPending ? "Saving..." : submitLabel}
-      </button>
+      {/* Submit Button */}
+      <div className="flex items-center gap-4">
+        <button
+          className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#10100F] px-8 text-xs font-black uppercase tracking-wider text-white shadow-sm hover:bg-neutral-800 transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+          type="submit"
+          disabled={isPending || isUploading}
+        >
+          {isUploading ? (
+            <span>Uploading images...</span>
+          ) : isPending ? (
+            <span>Saving...</span>
+          ) : (
+            <span>{submitLabel}</span>
+          )}
+        </button>
+      </div>
     </form>
   );
 }

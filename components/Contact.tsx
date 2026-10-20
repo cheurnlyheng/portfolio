@@ -20,10 +20,6 @@ export function Contact() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<Status>("idle");
   const [notice, setNotice] = useState("");
-  const labelClass = "grid gap-[6px]";
-  const fieldClass =
-    "w-full border-b-2 border-[#17161a]/20 bg-transparent px-0.5 py-2 font-bold text-[#17161a] outline-0 transition placeholder:text-[#17161a]/30 focus:border-[#2f5d4b]";
-  const labelTextClass = "text-[0.8rem] font-extrabold uppercase tracking-[0.08em] text-[#17161a]/45";
 
   const updateField = (field: keyof typeof initialForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -49,66 +45,85 @@ export function Contact() {
 
       setForm(initialForm);
       setStatus("success");
-      setNotice("Message sent. I will receive it in my inbox.");
+      setNotice("Message sent successfully. I will get back to you shortly.");
     } catch (error) {
       setStatus("error");
       setNotice(error instanceof Error ? error.message : "Message could not be sent.");
     }
   };
 
+  const inputClass =
+    "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-xs sm:text-sm font-medium text-white placeholder:text-white/35 focus:border-white/60 focus:bg-white/[0.08] focus:outline-none transition-all";
+  const labelClass = "block text-[10px] font-bold uppercase tracking-widest text-white/50 mb-1.5";
+
   return (
-    <section className="relative scroll-mt-28 border-t border-[#17161a]/10 py-20 sm:scroll-mt-20 lg:py-28" id="contact">
-      <div className="mx-auto grid w-full max-w-[1240px] items-start gap-[clamp(40px,7vw,80px)] px-5 sm:px-8 lg:grid-cols-[minmax(280px,0.9fr)_minmax(360px,1fr)] lg:px-[54px]">
+    <section
+      className="relative scroll-mt-28 overflow-hidden bg-[#10100F] py-20 text-white selection:bg-white selection:text-[#10100F] sm:scroll-mt-20 lg:py-28 border-t border-white/10"
+      id="contact"
+    >
+      {/* Background Ambience */}
+      <img
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        src="/images/contactmebackground.jpg"
+        alt=""
+        aria-hidden="true"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[#10100F]/55" aria-hidden="true" />
+
+      <div className="relative mx-auto grid w-full max-w-[1240px] items-start gap-12 sm:gap-16 px-5 sm:px-8 lg:grid-cols-[minmax(280px,0.85fr)_minmax(360px,1.15fr)] lg:px-[54px]">
+        {/* Left Info Column */}
         <motion.div
-          className="text-[#17161a]"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="mb-5 flex items-end gap-4 sm:gap-5">
-            <span className="text-[clamp(2.2rem,5vw,3.4rem)] font-black leading-none text-[#17161a]/10">05</span>
-            <p className="text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#2f5d4b]">Contact</p>
-          </div>
-          <h2 className="mb-5 max-w-[480px] text-[clamp(2.4rem,7vw,3.2rem)] font-extrabold leading-[1.05]">
-            Let&apos;s <span className="italic text-[#2f5d4b]">get in touch</span>
+          <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white/80">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            AVAILABLE FOR OPPORTUNITIES
+          </span>
+
+          <h2 className="mb-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white leading-tight">
+            Let&apos;s Get In Touch.
           </h2>
-          <p className="mb-10 text-[clamp(1rem,2vw,1.15rem)] font-semibold text-[#17161a]/55">
-            Feel free to give me a dm.
+          <p className="mb-10 text-sm sm:text-base text-white/60 font-medium leading-relaxed max-w-md">
+            Have a project in mind, need a full-stack engineer, or want to discuss a potential collaboration? Reach out directly.
           </p>
 
-          <div className="grid gap-7">
-            <div>
-              <h3 className="mb-2 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#17161a]/40">
-                Phone
-              </h3>
-              <a
-                className="text-[clamp(0.95rem,1.3vw,1.05rem)] font-bold text-[#17161a]/80 transition hover:text-[#2f5d4b]"
-                href="tel:+85517400085"
-              >
-                +(855) 17400085
-              </a>
-            </div>
-            <div>
-              <h3 className="mb-2 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#17161a]/40">
+          <div className="grid gap-6">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+              <h3 className="mb-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
                 Email
               </h3>
               <a
-                className="text-[clamp(0.95rem,1.3vw,1.05rem)] font-bold text-[#17161a]/80 transition hover:text-[#2f5d4b]"
+                className="text-sm sm:text-base font-bold text-white/90 hover:text-white transition-colors"
                 href="mailto:cheurnlyheng@gmail.com"
               >
                 cheurnlyheng@gmail.com
               </a>
             </div>
-            <div>
-              <h3 className="mb-3 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#17161a]/40">
-                Links
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+              <h3 className="mb-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                Phone
               </h3>
-              <div className="flex gap-2.5">
+              <a
+                className="text-sm sm:text-base font-bold text-white/90 hover:text-white transition-colors"
+                href="tel:+85517400085"
+              >
+                +(855) 17400085
+              </a>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+              <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                Profiles &amp; Socials
+              </h3>
+              <div className="flex flex-wrap gap-2.5">
                 {socials.map((social, index) => (
                   <motion.a
                     href={social.href}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#17161a]/15 bg-[#ffffff] p-2 transition hover:-translate-y-1 hover:border-[#2f5d4b]/50"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#10100F] transition-all"
                     key={social.label}
                     target={social.href.startsWith("http") ? "_blank" : undefined}
                     rel={social.href.startsWith("http") ? "noreferrer" : undefined}
@@ -120,11 +135,12 @@ export function Contact() {
                     transition={{ duration: 0.4, delay: index * 0.06 }}
                   >
                     <img
-                      className="h-full w-full object-contain"
+                      className="h-3.5 w-3.5 object-contain"
                       src={social.icon}
                       alt=""
                       aria-hidden="true"
                     />
+                    <span>{social.label}</span>
                   </motion.a>
                 ))}
               </div>
@@ -132,79 +148,86 @@ export function Contact() {
           </div>
         </motion.div>
 
+        {/* Right Form Column */}
         <motion.form
-          className="grid gap-6 border-t-2 border-[#17161a] pt-8"
+          className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md p-6 sm:p-10 space-y-5"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="m-0 text-[clamp(1.5rem,2.6vw,1.9rem)] font-extrabold leading-none text-[#17161a]">
-            Send a message
-          </h2>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">
+              DIRECT MESSAGE
+            </span>
+            <h3 className="mt-1 text-xl sm:text-2xl font-black uppercase tracking-tight text-white">
+              Send a Message
+            </h3>
+          </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
-            <label className={labelClass}>
-              <span className={labelTextClass}>Name</span>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>Name</label>
               <input
-                className={fieldClass}
+                className={inputClass}
                 name="name"
                 placeholder="John Smith"
                 value={form.name}
                 onChange={(event) => updateField("name", event.target.value)}
                 required
               />
-            </label>
-            <label className={labelClass}>
-              <span className={labelTextClass}>Subject</span>
+            </div>
+            <div>
+              <label className={labelClass}>Subject</label>
               <input
-                className={fieldClass}
+                className={inputClass}
                 name="subject"
-                placeholder="UX/UI + Fullstack"
+                placeholder="Full-Stack / UI/UX Role"
                 value={form.subject}
                 onChange={(event) => updateField("subject", event.target.value)}
                 required
               />
-            </label>
+            </div>
           </div>
 
-          <label className={labelClass}>
-            <span className={labelTextClass}>Email</span>
-            <input
-              className={fieldClass}
-              name="email"
-              type="email"
-              placeholder="johnsmith@gmail.com"
-              value={form.email}
-              onChange={(event) => updateField("email", event.target.value)}
-              required
-            />
-          </label>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>Email</label>
+              <input
+                className={inputClass}
+                name="email"
+                type="email"
+                placeholder="johnsmith@gmail.com"
+                value={form.email}
+                onChange={(event) => updateField("email", event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Phone (Optional)</label>
+              <input
+                className={inputClass}
+                name="phone"
+                type="tel"
+                placeholder="+(855) 17400085"
+                value={form.phone}
+                onChange={(event) => updateField("phone", event.target.value)}
+              />
+            </div>
+          </div>
 
-          <label className={labelClass}>
-            <span className={labelTextClass}>Phone number</span>
-            <input
-              className={fieldClass}
-              name="phone"
-              type="tel"
-              placeholder="+(855) 17400085"
-              value={form.phone}
-              onChange={(event) => updateField("phone", event.target.value)}
-            />
-          </label>
-
-          <label className={labelClass}>
-            <span className={labelTextClass}>Description</span>
+          <div>
+            <label className={labelClass}>Message</label>
             <textarea
-              className={`${fieldClass} min-h-[110px] resize-y`}
+              className={`${inputClass} min-h-[120px] resize-y`}
               name="message"
-              placeholder="Hello, I am contacting here for ..."
+              placeholder="Tell me about your project, timeline, and vision..."
               value={form.message}
               onChange={(event) => updateField("message", event.target.value)}
               required
             />
-          </label>
+          </div>
 
           <label className="hidden" aria-hidden="true">
             <span>Company</span>
@@ -217,38 +240,32 @@ export function Contact() {
             />
           </label>
 
-          <motion.button
-            className="mt-1.5 inline-flex min-h-[48px] min-w-[172px] items-center justify-center gap-[9px] rounded-full bg-[#17161a] px-[22px] py-3 font-extrabold text-[#faf9f6] transition hover:bg-[#2f5d4b] disabled:cursor-not-allowed disabled:opacity-60 disabled:grayscale"
+          <button
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white text-[#10100F] px-8 py-3.5 text-xs font-black uppercase tracking-wider hover:bg-neutral-200 transition-all shadow-sm active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
             type="submit"
             disabled={status === "loading"}
-            whileHover={status === "loading" ? undefined : { scale: 1.02 }}
-            whileTap={status === "loading" ? undefined : { scale: 0.97 }}
           >
             {status === "loading" ? (
-              <motion.span
-                className="h-[18px] w-[18px] rounded-full border-2 border-[#faf9f6]/40 border-t-[#faf9f6]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 0.7, repeat: Infinity, ease: "linear" }}
-              />
+              <span className="h-4 w-4 rounded-full border-2 border-[#10100F]/30 border-t-[#10100F] animate-spin" />
             ) : (
-              <Icon name="send" className="h-[18px] w-[18px]" />
+              <Icon name="send" className="h-4 w-4" />
             )}
-            {status === "loading" ? "Sending..." : "Send message"}
-          </motion.button>
+            <span>{status === "loading" ? "SENDING..." : "SEND MESSAGE"}</span>
+          </button>
 
-          {notice ? (
+          {notice && (
             <motion.p
-              className={`m-0 border-l-2 px-3.5 py-2.5 text-[0.95rem] font-bold leading-[1.25] ${
+              className={`rounded-xl border p-4 text-xs font-bold leading-relaxed ${
                 status === "success"
-                  ? "border-[#3f7d54] bg-[#3f7d54]/10 text-[#2c5c3d]"
-                  : "border-[#2f5d4b] bg-[#2f5d4b]/10 text-[#1c3f32]"
+                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                  : "border-red-500/30 bg-red-500/10 text-red-300"
               }`}
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
             >
               {notice}
             </motion.p>
-          ) : null}
+          )}
         </motion.form>
       </div>
     </section>

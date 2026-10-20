@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  --font-serif: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-paper: #fbfbfb;
+  --color-ink: #10100f;
+  --color-ink-muted: #524f4a;
+  --color-ink-subtle: #8c887f;
+  --color-line: #e5ded2;
 }
 
 html {
@@ -11,35 +17,45 @@ html {
 
 body {
   margin: 0;
-  background: #faf9f6;
-  color: #17161a;
-  font-weight: 500;
-  letter-spacing: 0;
+  background-color: #fbfbfb;
+  color: #10100f;
+  font-family: var(--font-sans);
+  letter-spacing: -0.015em;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.03em;
 }
 
 ::selection {
-  background: rgba(47, 93, 75, 0.22);
-  color: #17161a;
+  background-color: #10100f;
+  color: #ffffff;
 }
 
-/* Custom scrollbar */
+/* Custom minimal scrollbar matching Graphites style */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #faf9f6;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2f5d4b;
-  border-radius: 999px;
-  border: 2px solid #faf9f6;
+  background: rgba(33, 31, 27, 0.18);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(33, 31, 27, 0.35);
 }
 
 * {
-  scrollbar-color: #2f5d4b #faf9f6;
+  scrollbar-color: rgba(33, 31, 27, 0.2) transparent;
   scrollbar-width: thin;
 }
 
@@ -47,7 +63,6 @@ body {
   from {
     transform: translateX(0);
   }
-
   to {
     transform: translateX(-50%);
   }

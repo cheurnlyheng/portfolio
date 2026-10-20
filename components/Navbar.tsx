@@ -1,48 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { navItems } from "@/data/navigation";
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === "/";
-  const [activeSection, setActiveSection] = useState(isHome ? "home" : "");
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    if (!isHome) return;
-
-    const sections = navItems
-      .map((item) => document.querySelector(item.href))
-      .filter((section): section is Element => section !== null);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((entry) => entry.isIntersecting);
-        if (visible?.target.id) {
-          setActiveSection(visible.target.id);
-        }
-      },
-      {
-        rootMargin: "-35% 0px -50% 0px",
-        threshold: 0.01,
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, [isHome]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const handleNavClick = (href: string) => {
     if (!isHome) {
@@ -52,97 +15,49 @@ export function Navbar() {
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveSection(href.replace("#", ""));
     }
   };
 
+  const buttonClass =
+    "inline-flex items-center justify-center rounded-full bg-white/80 hover:bg-white backdrop-blur-md px-3.5 sm:px-5 py-1.5 sm:py-2.5 border border-black/5 shadow-sm text-[11px] sm:text-xs font-bold tracking-tight text-[#10100F] uppercase transition-all active:scale-95";
+
   return (
-    <motion.header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
-        scrolled
-          ? "border-[#17161a]/12 bg-[#faf9f6]/90 backdrop-blur-md"
-          : "border-transparent bg-transparent"
-      }`}
-      initial={{ y: -32, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="mx-auto flex h-[68px] w-full max-w-[1240px] items-center justify-between px-5 sm:px-8 lg:px-[54px]">
+    <header className="fixed top-3 sm:top-5 left-0 right-0 z-50 px-3 sm:px-6 flex items-center justify-between pointer-events-none">
+      {/* Left: Brand Logo Pill */}
+      <div className="pointer-events-auto">
         <a
           href={isHome ? "#home" : "/#home"}
           onClick={(event) => {
             event.preventDefault();
             handleNavClick("#home");
           }}
-          className="text-[1.15rem] font-extrabold text-[#17161a]"
+          className="inline-flex items-center justify-center rounded-full bg-white/80 hover:bg-white backdrop-blur-md px-3.5 sm:px-5 py-1.5 sm:py-2.5 border border-black/5 shadow-sm transition-all active:scale-95"
+          aria-label="Back to top"
         >
-          Lyheng<span className="text-[#2f5d4b]">.</span>
+          <span className="text-[11px] sm:text-sm font-black tracking-tight text-[#10100F] uppercase">
+            LYHENG
+          </span>
         </a>
+      </div>
 
-        <nav
-          className="hidden items-center gap-8 sm:flex"
-          aria-label="Main navigation"
+      {/* Right: Projects & Contact Action Buttons (no icons) */}
+      <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5">
+        <button
+          type="button"
+          onClick={() => handleNavClick("#projects")}
+          className={buttonClass}
         >
-          {navItems.map((item) => {
-            const id = item.href.replace("#", "");
-            const isActive = activeSection === id;
-
-            return (
-              <button
-                className={`relative border-0 bg-transparent py-2 text-[0.82rem] font-extrabold uppercase tracking-[0.08em] transition-colors duration-200 ${
-                  isActive ? "text-[#17161a]" : "text-[#17161a]/45 hover:text-[#17161a]/80"
-                }`}
-                type="button"
-                key={item.href}
-                onClick={() => handleNavClick(item.href)}
-                aria-current={isActive ? "page" : undefined}
-              >
-                {item.label}
-                {isActive ? (
-                  <motion.span
-                    layoutId="nav-underline"
-                    className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-[#2f5d4b]"
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                ) : null}
-              </button>
-            );
-          })}
-        </nav>
+          <span>Projects</span>
+        </button>
 
         <button
           type="button"
           onClick={() => handleNavClick("#contact")}
-          className="inline-flex items-center gap-1.5 text-[0.82rem] font-extrabold uppercase tracking-[0.08em] text-[#17161a] transition hover:text-[#2f5d4b]"
+          className={buttonClass}
         >
-          Say hello
-          <span aria-hidden="true">→</span>
+          <span>Contact</span>
         </button>
       </div>
-
-      <nav
-        className="flex items-center gap-5 overflow-x-auto border-t border-[#17161a]/10 px-5 py-2.5 sm:hidden"
-        aria-label="Main navigation"
-      >
-        {navItems.map((item) => {
-          const id = item.href.replace("#", "");
-          const isActive = activeSection === id;
-
-          return (
-            <button
-              className={`whitespace-nowrap border-0 bg-transparent py-1 text-[0.76rem] font-extrabold uppercase tracking-[0.06em] transition-colors duration-200 ${
-                isActive ? "text-[#2f5d4b]" : "text-[#17161a]/45"
-              }`}
-              type="button"
-              key={item.href}
-              onClick={() => handleNavClick(item.href)}
-              aria-current={isActive ? "page" : undefined}
-            >
-              {item.label}
-            </button>
-          );
-        })}
-      </nav>
-    </motion.header>
+    </header>
   );
 }

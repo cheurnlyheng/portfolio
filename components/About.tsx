@@ -4,82 +4,108 @@ import { motion } from "framer-motion";
 
 const timeline = [
   {
-    label: "Education",
-    body: "I am currently a student at RUPP with a strong interest in technology, particularly web application development. Although I specialize in UI/UX design, I have also developed a broader understanding of both frontend and backend development. What I am good at is the ability to learn.",
+    step: "01",
+    label: "Education & Foundation",
+    body: "Currently a student at RUPP with a focus on web application development. While specializing in UI/UX design, I have built a deep foundational understanding of modern frontend frameworks, backend architecture, and relational databases. Learning velocity is my greatest strength.",
   },
   {
-    label: "Philosophy",
-    body: "I believe an effective UI/UX designer should understand how a design is implemented by frontend developers and how the overall experience connects with backend systems. This lets me create designs that are visually clean and user-friendly, but also practical, functional, and realistic to build.",
+    step: "02",
+    label: "Design Engineering Philosophy",
+    body: "An effective UI/UX designer must understand how interfaces are actually built in code and connected to backend systems. This cross-disciplinary empathy enables me to craft interfaces that are visually immaculate and delightfully intuitive, while remaining practical, performant, and realistic to build.",
   },
   {
-    label: "Goal",
-    body: "My goal is to design complete website experiences with smooth user flows, clear structure, and strong usability. I don't only focus on attractive interfaces — I aim to help businesses improve their digital presence and achieve their goals through thoughtful design.",
+    step: "03",
+    label: "Vision & Objectives",
+    body: "My mission is to architect complete digital experiences with frictionless user flows, purposeful hierarchy, and unwavering usability. Beyond aesthetic interfaces, I focus on helping ventures expand their digital footprint and achieve tangible business outcomes through thoughtful design systems.",
   },
 ];
 
 const stats = [
-  { value: "RUPP", label: "Currently studying at" },
-  { value: "5+", label: "Tech stacks in daily use" },
-  { value: "UI/UX", label: "First, code second" },
+  { value: "RUPP", label: "University Studies", sub: "Computer Science & IT" },
+  { value: "5+", label: "Tech Stacks in Daily Use", sub: "React, Next.js, Spring Boot" },
+  { value: "UI/UX", label: "Design-Driven Engineering", sub: "Figma to Production Code" },
 ];
 
 export function About() {
   return (
-    <section className="relative scroll-mt-28 border-t border-[#17161a]/10 py-20 sm:scroll-mt-20 lg:py-28" id="about">
+    <section
+      className="relative scroll-mt-28 border-t border-black/5 py-20 sm:scroll-mt-20 lg:py-28"
+      id="about"
+    >
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px]">
+        {/* Section Header */}
         <motion.div
-          className="mb-14 flex items-end gap-4 sm:gap-6"
+          className="mb-14 sm:mb-20"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <span className="text-[clamp(2.6rem,6vw,4.2rem)] font-black leading-none text-[#17161a]/10">02</span>
-          <div>
-            <p className="mb-2 text-[0.8rem] font-extrabold uppercase tracking-[0.18em] text-[#2f5d4b]">About</p>
-            <h2 className="text-[clamp(1.9rem,3.6vw,2.9rem)] font-extrabold leading-[1.05] text-[#17161a]">
-              A quick look at how I think
-            </h2>
-          </div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
+            ABOUT
+          </span>
+          <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
+            How I Think &amp; Build
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
+            Bridging clean UI/UX design with robust full-stack engineering.
+          </p>
         </motion.div>
 
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] lg:gap-20">
+        {/* Two Column Layout */}
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-16 items-start">
+          {/* Left Stats Cards */}
           <motion.div
-            className="flex flex-row flex-wrap gap-10 self-start sm:gap-12 lg:flex-col lg:gap-10"
+            className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             {stats.map((stat) => (
-              <div key={stat.label}>
-                <p className="m-0 text-[2rem] font-extrabold leading-none text-[#17161a]">{stat.value}</p>
-                <p className="mt-2.5 text-[0.82rem] font-bold leading-snug text-[#17161a]/45">{stat.label}</p>
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-black/5 bg-white p-6 shadow-xs hover:shadow-sm hover:border-black/10 transition-all"
+              >
+                <p className="m-0 text-3xl sm:text-4xl font-black tracking-tight text-[#10100F]">
+                  {stat.value}
+                </p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[#10100F]/80">
+                  {stat.label}
+                </p>
+                <p className="mt-1 text-xs text-[#10100F]/50 font-medium">
+                  {stat.sub}
+                </p>
               </div>
             ))}
           </motion.div>
 
-          <div className="grid gap-12">
+          {/* Right Timeline Cards */}
+          <div className="grid gap-5">
             {timeline.map((item, index) => (
               <motion.div
-                className="flex gap-5 sm:gap-8"
                 key={item.label}
+                className="rounded-2xl border border-black/5 bg-white/70 hover:bg-white p-6 sm:p-8 shadow-xs hover:shadow-sm hover:border-black/10 transition-all"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
-                <span className="shrink-0 text-[1.1rem] font-bold leading-[1.7] text-[#17161a]/25">
-                  0{index + 1}
-                </span>
-                <div>
-                  <h3 className="m-0 mb-2.5 text-[0.78rem] font-extrabold uppercase tracking-[0.14em] text-[#2f5d4b]">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#10100F] text-white text-[11px] font-black">
+                    {item.step}
+                  </span>
+                  <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-[#10100F]">
                     {item.label}
                   </h3>
-                  <p className="m-0 max-w-[620px] text-[clamp(0.96rem,1.1vw,1.05rem)] font-semibold leading-[1.6] text-[#17161a]/65">
-                    {item.body}
-                  </p>
                 </div>
+                <p className="m-0 text-sm sm:text-base font-medium leading-relaxed text-[#10100F]/75">
+                  {item.body}
+                </p>
               </motion.div>
             ))}
           </div>
