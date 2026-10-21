@@ -71,11 +71,6 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
             alt={project.title}
           />
         ) : null}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20 pointer-events-none"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-black/10 pointer-events-none" aria-hidden="true" />
       </div>
 
       {/* Sticky text overlay that follows the screen until the tall image ends */}
