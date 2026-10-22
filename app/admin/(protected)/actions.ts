@@ -7,9 +7,11 @@ import { del } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/slug";
 import { ADMIN_SESSION_COOKIE } from "@/lib/auth";
-import { MAX_IMAGES_PER_PROJECT } from "@/lib/constants";
+import { COVER_POSITIONS, DEFAULT_COVER_POSITION, MAX_IMAGES_PER_PROJECT } from "@/lib/constants";
 
 export type ProjectFormState = { error?: string };
+
+const VALID_COVER_POSITIONS = new Set<string>(COVER_POSITIONS.map((item) => item.value));
 
 export async function logoutAction() {
   const cookieStore = await cookies();
@@ -19,6 +21,7 @@ export async function logoutAction() {
 
 function parseProjectForm(formData: FormData) {
   const rawDisplayMode = String(formData.get("displayMode") ?? "BANNER");
+  const rawCoverPosition = String(formData.get("coverPosition") ?? "");
   return {
     title: String(formData.get("title") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
@@ -26,6 +29,9 @@ function parseProjectForm(formData: FormData) {
     githubUrl: String(formData.get("githubUrl") ?? "").trim(),
     liveUrl: String(formData.get("liveUrl") ?? "").trim(),
     displayMode: rawDisplayMode === "SPLIT" ? "SPLIT" : "BANNER",
+    coverPosition: VALID_COVER_POSITIONS.has(rawCoverPosition)
+      ? rawCoverPosition
+      : DEFAULT_COVER_POSITION,
   } as const;
 }
 
@@ -66,6 +72,11 @@ function getNewImageUrls(formData: FormData) {
     .filter((url) => url.length > 0);
 }
 
+function getMobileCoverUrl(formData: FormData) {
+  const url = String(formData.get("mobileCoverUrl") ?? "").trim();
+  return url.length > 0 ? url : null;
+}
+
 export async function createProjectAction(
   _prevState: ProjectFormState | undefined,
   formData: FormData,
@@ -98,6 +109,8 @@ export async function createProjectAction(
       liveUrl: input.liveUrl || null,
       images,
       displayMode: input.displayMode,
+      coverPosition: input.coverPosition,
+      mobileCoverImage: getMobileCoverUrl(formData),
     },
   });
 
@@ -143,6 +156,21 @@ export async function updateProjectAction(
     }
   }
 
+  const removeMobileCover = formData.get("removeMobileCover") === "true";
+  const newMobileCoverUrl = getMobileCoverUrl(formData);
+  const mobileCoverImage = newMobileCoverUrl ?? (removeMobileCover ? null : existing.mobileCoverImage);
+
+  if (
+    existing.mobileCoverImage &&
+    existing.mobileCoverImage !== mobileCoverImage
+  ) {
+    try {
+      await del(existing.mobileCoverImage);
+    } catch {
+      // Non-fatal: the blob may already be gone.
+    }
+  }
+
   await prisma.project.update({
     where: { id },
     data: {
@@ -153,6 +181,8 @@ export async function updateProjectAction(
       liveUrl: input.liveUrl || null,
       images: [...keptImages, ...newImages],
       displayMode: input.displayMode,
+      coverPosition: input.coverPosition,
+      mobileCoverImage,
     },
   });
 
@@ -166,9 +196,13 @@ export async function deleteProjectAction(id: string, _formData: FormData) {
   const existing = await prisma.project.findUnique({ where: { id } });
   if (!existing) return;
 
-  if (existing.images.length > 0) {
+  const toDelete = existing.mobileCoverImage
+    ? [...existing.images, existing.mobileCoverImage]
+    : existing.images;
+
+  if (toDelete.length > 0) {
     try {
-      await del(existing.images);
+      await del(toDelete);
     } catch {
       // Non-fatal: proceed with deleting the project record regardless.
     }

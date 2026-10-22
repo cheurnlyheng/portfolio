@@ -44,6 +44,7 @@ export default async function EditProjectPage({
         action={updateWithId}
         submitLabel="Save Changes"
         existingImages={project.images}
+        existingMobileCover={project.mobileCoverImage}
         defaultValues={{
           title: project.title,
           description: project.description,
@@ -51,6 +52,7 @@ export default async function EditProjectPage({
           githubUrl: project.githubUrl,
           liveUrl: project.liveUrl ?? "",
           displayMode: project.displayMode,
+          coverPosition: project.coverPosition,
         }}
       />
     </main>

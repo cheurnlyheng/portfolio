@@ -13,6 +13,8 @@ export type ProjectItem = {
   githubUrl: string;
   liveUrl: string | null;
   coverImage: string | null;
+  coverPosition: string;
+  mobileCoverImage: string | null;
 };
 
 const INITIAL_COUNT = 2;
@@ -65,11 +67,17 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
       {/* Tall background image */}
       <div className="absolute inset-0 h-full w-full overflow-hidden bg-[#10100F]/[0.05]">
         {project.coverImage ? (
-          <img
-            className="h-full w-full object-cover object-top"
-            src={project.coverImage}
-            alt={project.title}
-          />
+          <picture>
+            {project.mobileCoverImage ? (
+              <source media="(max-width: 639px)" srcSet={project.mobileCoverImage} />
+            ) : null}
+            <img
+              className="h-full w-full object-cover"
+              style={{ objectPosition: project.coverPosition }}
+              src={project.coverImage}
+              alt={project.title}
+            />
+          </picture>
         ) : null}
       </div>
 
@@ -93,13 +101,11 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
             </h3>
           </Link>
 
-          {/* Description */}
-          <p className="max-w-2xl text-base sm:text-lg lg:text-xl font-medium leading-relaxed text-white/80 drop-shadow-sm">
-            {project.description}
-          </p>
+         
+          
 
           {/* Action Pills */}
-          <div className="pt-2 flex flex-wrap items-center gap-3">
+          <div className="pt-2 flex flex-wrap items-center gap-3 mt-3">
             <Link
               className="inline-flex items-center gap-1.5 rounded-full bg-white/85 hover:bg-white backdrop-blur-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#10100F] shadow-sm hover:shadow-md transition-all active:scale-95"
               href={`/projects/${project.slug}`}

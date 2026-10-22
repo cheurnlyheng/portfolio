@@ -25,6 +25,8 @@ export async function Projects() {
     githubUrl: project.githubUrl,
     liveUrl: project.liveUrl,
     coverImage: project.images[0] ?? null,
+    coverPosition: project.coverPosition,
+    mobileCoverImage: project.mobileCoverImage,
   });
 
   const splitProjects = projects

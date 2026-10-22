@@ -36,11 +36,17 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
     >
       {/* Background Image with Graphites hover scale */}
       {project.coverImage ? (
-        <img
-          className="h-full w-full object-cover object-top transition duration-700 ease-out group-hover:scale-[1.03]"
-          src={project.coverImage}
-          alt={project.title}
-        />
+        <picture>
+          {project.mobileCoverImage ? (
+            <source media="(max-width: 639px)" srcSet={project.mobileCoverImage} />
+          ) : null}
+          <img
+            className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.03]"
+            style={{ objectPosition: project.coverPosition }}
+            src={project.coverImage}
+            alt={project.title}
+          />
+        </picture>
       ) : (
         <div className="h-full w-full bg-[#10100F]/10" />
       )}
@@ -63,9 +69,7 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
         </h3>
 
         {/* Description */}
-        <p className="max-w-md text-sm sm:text-base font-medium leading-relaxed text-white/80 drop-shadow-sm">
-          {project.description}
-        </p>
+        
 
         {/* Action Buttons matching Graphites pill style */}
         <div className="pt-2 flex flex-wrap items-center gap-3">

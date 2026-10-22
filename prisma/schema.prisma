@@ -25,17 +25,19 @@ model HeroSlide {
 }
 
 model Project {
-  id          String             @id @default(cuid())
-  slug        String             @unique
-  title       String
-  description String
-  date        DateTime
-  githubUrl   String
-  liveUrl     String?
-  images      String[]           @default([])
-  displayMode ProjectDisplayMode @default(BANNER)
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id               String             @id @default(cuid())
+  slug             String             @unique
+  title            String
+  description      String
+  date             DateTime
+  githubUrl        String
+  liveUrl          String?
+  images           String[]           @default([])
+  displayMode      ProjectDisplayMode @default(BANNER)
+  coverPosition    String             @default("center top")
+  mobileCoverImage String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 
   @@index([date])
 }
