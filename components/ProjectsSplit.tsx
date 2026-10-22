@@ -37,7 +37,7 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
       {/* Background Image with Graphites hover scale */}
       {project.coverImage ? (
         <img
-          className="h-full w-full object-cover object-top grayscale contrast-[1.05] transition duration-700 ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
+          className="h-full w-full object-cover object-top transition duration-700 ease-out group-hover:scale-[1.03]"
           src={project.coverImage}
           alt={project.title}
         />

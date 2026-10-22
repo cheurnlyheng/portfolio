@@ -66,7 +66,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
       <div className="absolute inset-0 h-full w-full overflow-hidden bg-[#10100F]/[0.05]">
         {project.coverImage ? (
           <img
-            className="h-full w-full object-cover object-top grayscale contrast-[1.05]"
+            className="h-full w-full object-cover object-top"
             src={project.coverImage}
             alt={project.title}
           />
