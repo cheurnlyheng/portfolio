@@ -60,7 +60,7 @@ export default async function AdminDashboardPage() {
                   {cover ? (
                     <div className="relative h-16 w-24 sm:h-20 sm:w-32 shrink-0 overflow-hidden rounded-xl border border-black/5 bg-[#f4f1ea]">
                       <img
-                        className="h-full w-full object-cover object-top grayscale group-hover:grayscale-0 transition-all"
+                        className="h-full w-full object-cover object-top"
                         src={cover}
                         alt=""
                       />
