@@ -45,12 +45,6 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
         <div className="h-full w-full bg-[#10100F]/10" />
       )}
 
-      {/* Cinematic Gradient Overlays */}
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/15 pointer-events-none"
-        aria-hidden="true"
-      />
-
       {/* Bottom Content Overlay matching Graphites SplitBanner */}
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-14 z-10 space-y-3">
         {/* Pills */}
