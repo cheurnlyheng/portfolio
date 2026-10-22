@@ -366,17 +366,18 @@ export function ProjectForm({
             Cover Framing
           </h2>
           <p className="mt-1 text-xs text-[#10100F]/60">
-            The banner crops tall on screen, so pick which part of the cover image should stay
-            in view. Add a separate mobile image only if the crop still doesn&apos;t work on phones.
+            The cover shows your full screenshot inside a browser-style frame — it is never
+            cropped. The alignment below only matters if there&apos;s extra space around the
+            image once it&apos;s framed.
           </p>
         </div>
 
         {coverPreviewUrl ? (
           <div className="flex flex-col gap-4 sm:flex-row">
-            {/* Focal point preview + 3x3 grid */}
-            <div className="relative aspect-[9/16] w-full max-w-[180px] shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea]">
+            {/* Alignment preview + 3x3 grid */}
+            <div className="relative aspect-video w-full max-w-[260px] shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-[#eceae3]">
               <img
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 style={{ objectPosition: coverPosition }}
                 src={coverPreviewUrl}
                 alt=""
@@ -391,8 +392,8 @@ export function ProjectForm({
                     onClick={() => setCoverPosition(position.value)}
                     className={`rounded-md border transition-all ${
                       coverPosition === position.value
-                        ? "border-white bg-white/90 shadow-sm"
-                        : "border-white/40 bg-white/0 hover:bg-white/30"
+                        ? "border-[#10100F]/60 bg-[#10100F]/10 shadow-sm"
+                        : "border-black/10 bg-black/0 hover:bg-black/5"
                     }`}
                   />
                 ))}
@@ -400,10 +401,10 @@ export function ProjectForm({
             </div>
 
             <div className="flex-1 space-y-1.5">
-              <label className={labelClass}>Focal Point</label>
+              <label className={labelClass}>Alignment</label>
               <p className="text-xs text-[#10100F]/50 font-medium">
-                This preview is shaped like a phone screen — the mobile banner crop is the
-                hardest to get right. Click a cell on the image to keep that part visible.
+                Mostly relevant for very wide or very tall screenshots that leave empty space
+                inside the frame. Most screenshots won&apos;t need this touched.
               </p>
               <p className="text-xs font-bold text-[#10100F]/70">
                 Current: {COVER_POSITIONS.find((p) => p.value === coverPosition)?.label ?? "Top Center"}
@@ -412,7 +413,7 @@ export function ProjectForm({
           </div>
         ) : (
           <p className="text-xs text-[#10100F]/45 font-medium">
-            Upload a screenshot above first to set its focal point.
+            Upload a screenshot above first to set its alignment.
           </p>
         )}
 
@@ -420,8 +421,9 @@ export function ProjectForm({
           <div>
             <label className={labelClass}>Mobile Cover (Optional Override)</label>
             <p className="text-xs text-[#10100F]/50 font-medium">
-              Leave blank to reuse the main cover with the focal point above. Only upload one if
-              the crop genuinely doesn&apos;t work on small screens.
+              Leave blank to reuse the main cover on phones too. Upload a screenshot of your
+              site&apos;s actual mobile/responsive view here if you have one — it looks better
+              than shrinking the desktop screenshot down.
             </p>
           </div>
 

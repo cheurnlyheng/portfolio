@@ -39,24 +39,25 @@ export async function Projects() {
 
   return (
     <section
-      className="relative scroll-mt-28 border-t border-black/5 pt-20 sm:scroll-mt-20 lg:pt-28"
+      className="relative scroll-mt-28 border-t border-black/5 py-20 sm:scroll-mt-20 lg:py-28"
       id="projects"
     >
-      <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px] mb-12 sm:mb-16">
-        <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
-          PROJECTS
-        </span>
-        <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
-          CLIENT & ACADEMIC PROJECTS
-        </h2>
-        <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
-          Production web applications, client solutions, and digital design systems.
-        </p>
-      </div>
+      <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px]">
+        <div className="mb-14 sm:mb-20">
+          <span className="inline-flex items-center gap-2 rounded-full bg-black/5 border border-black/5 px-3.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
+            PROJECTS
+          </span>
+          <h2 className="mt-4 text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#10100F] leading-tight">
+            CLIENT & ACADEMIC PROJECTS
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-[#10100F]/60 max-w-xl font-medium">
+            Production web applications, client solutions, and digital design systems.
+          </p>
+        </div>
 
-      {/* Full-bleed, edge to edge — intentionally outside the padded container */}
-      <ProjectsSplit projects={splitProjects} />
-      <ProjectsGrid projects={bannerProjects} />
+        <ProjectsSplit projects={splitProjects} />
+        <ProjectsGrid projects={bannerProjects} />
+      </div>
     </section>
   );
 }

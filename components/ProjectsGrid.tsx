@@ -27,13 +27,13 @@ export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
   if (projects.length === 0) return null;
 
   return (
-    <div>
+    <div className="space-y-14 sm:space-y-20">
       {visibleProjects.map((project) => (
         <ProjectFeature key={project.id} project={project} />
       ))}
 
       {hiddenCount > 0 ? (
-        <div className="relative z-10 flex justify-center bg-[#fbfbfb] py-14">
+        <div className="flex justify-center pt-2">
           <button
             className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-[#10100F] shadow-sm hover:border-black/30 hover:shadow-md transition-all active:scale-95"
             type="button"
@@ -55,7 +55,7 @@ export function ProjectsGrid({ projects }: { projects: ProjectItem[] }) {
   );
 }
 
-/* Tall sticky banner matching Graphites HeroBanner structure */
+/* Framed screenshot card — the full image is always visible, never cropped */
 function ProjectFeature({ project }: { project: ProjectItem }) {
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -63,86 +63,86 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
   }).format(new Date(project.date));
 
   return (
-    <section className="relative h-[160vh] w-full border-b border-black/10 sm:h-[175vh]">
-      {/* Tall background image */}
-      <div className="absolute inset-0 h-full w-full overflow-hidden bg-[#10100F]/[0.05]">
-        {project.coverImage ? (
-          <picture>
-            {project.mobileCoverImage ? (
-              <source media="(max-width: 639px)" srcSet={project.mobileCoverImage} />
-            ) : null}
-            <img
-              className="h-full w-full object-cover"
-              style={{ objectPosition: project.coverPosition }}
-              src={project.coverImage}
-              alt={project.title}
-            />
-          </picture>
+    <div>
+      {/* Text block */}
+      <div className="max-w-3xl space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
+            {formattedDate}
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
+            {project.liveUrl ? "PRODUCTION DEPLOYMENT" : "SOURCE AVAILABLE"}
+          </span>
+        </div>
+
+        <Link href={`/projects/${project.slug}`}>
+          <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F] hover:text-[#10100F]/70 transition-colors">
+            {project.title}
+          </h3>
+        </Link>
+
+        {project.description ? (
+          <p className="max-w-2xl text-sm sm:text-base font-medium leading-relaxed text-[#10100F]/60">
+            {project.description}
+          </p>
         ) : null}
-      </div>
 
-      {/* Sticky text overlay that follows the screen until the tall image ends */}
-      <div className="sticky top-0 flex h-screen w-full flex-col justify-end p-6 pb-14 sm:p-12 md:p-16 lg:p-20 z-10 pointer-events-none">
-        <div className="max-w-4xl space-y-4 pointer-events-auto">
-          {/* Category & Status Badges */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/90">
-              {formattedDate}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/90">
-              {project.liveUrl ? "PRODUCTION DEPLOYMENT" : "SOURCE AVAILABLE"}
-            </span>
-          </div>
-
-          {/* Title */}
-          <Link href={`/projects/${project.slug}`}>
-            <h3 className="text-white/95 font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[0.92] drop-shadow-md hover:text-white/80 transition-colors">
-              {project.title}
-            </h3>
+        <div className="flex flex-wrap items-center gap-3 pt-1">
+          <Link
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#10100F] hover:bg-neutral-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:shadow-md transition-all active:scale-95"
+            href={`/projects/${project.slug}`}
+          >
+            <span>View More Detail</span>
+            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
           </Link>
 
-         
-          
-
-          {/* Action Pills */}
-          <div className="pt-2 flex flex-wrap items-center gap-3 mt-3">
-            <Link
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/85 hover:bg-white backdrop-blur-md px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#10100F] shadow-sm hover:shadow-md transition-all active:scale-95"
-              href={`/projects/${project.slug}`}
-            >
-              <span>View More Detail</span>
-              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
-            </Link>
-
-            {project.liveUrl && (
-              <a
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/20 hover:bg-white backdrop-blur-md px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:text-[#10100F] transition-all active:scale-95"
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span>Live Site</span>
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
-              </a>
-            )}
-
+          {project.liveUrl && (
             <a
-              className="group/gh inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/20 hover:bg-white backdrop-blur-md text-white hover:text-[#10100F] transition-all active:scale-95"
-              href={project.githubUrl}
+              className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white hover:bg-black/5 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#10100F] transition-all active:scale-95"
+              href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              aria-label={`${project.title} on GitHub`}
             >
-              <img
-                className="h-4 w-4 invert transition group-hover/gh:invert-0"
-                src="/icons/tech/github.svg"
-                alt=""
-                aria-hidden="true"
-              />
+              <span>Live Site</span>
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
             </a>
-          </div>
+          )}
+
+          <a
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-black/15 bg-white hover:bg-black/5 text-[#10100F] transition-all active:scale-95"
+            href={project.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${project.title} on GitHub`}
+          >
+            <img className="h-4 w-4" src="/icons/tech/github.svg" alt="" aria-hidden="true" />
+          </a>
         </div>
       </div>
-    </section>
+
+      {/* Browser-framed screenshot, object-contain so nothing is ever cropped */}
+      {project.coverImage ? (
+        <div className="mt-8 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm">
+          <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/70 px-4 py-3">
+            <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
+            <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
+            <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
+          </div>
+          <div className="flex items-center justify-center bg-[#eceae3] p-4 sm:p-10">
+            <picture>
+              {project.mobileCoverImage ? (
+                <source media="(max-width: 639px)" srcSet={project.mobileCoverImage} />
+              ) : null}
+              <img
+                className="max-h-[70vh] w-auto max-w-full rounded-lg object-contain shadow-md"
+                style={{ objectPosition: project.coverPosition }}
+                src={project.coverImage}
+                alt={project.title}
+              />
+            </picture>
+          </div>
+        </div>
+      ) : null}
+    </div>
   );
 }
