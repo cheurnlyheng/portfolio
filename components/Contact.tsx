@@ -210,7 +210,7 @@ export function Contact() {
                 className={inputClass}
                 name="phone"
                 type="tel"
-                placeholder="+12 345678"
+                placeholder="012 345678"
                 value={form.phone}
                 onChange={(event) => updateField("phone", event.target.value)}
               />
