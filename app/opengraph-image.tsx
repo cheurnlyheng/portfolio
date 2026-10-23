@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 export const runtime = "nodejs";
-export const alt = "Cheurn Lyheng — Full-Stack Developer & UI/UX Designer";
+export const alt = "Cheurn Lyheng — Full-Stack Developer & UI/UX Designer & Software Tester";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -54,21 +54,22 @@ export default async function OpengraphImage() {
           </div>
           <div
             style={{
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: 600,
               color: "rgba(16,16,15,0.6)",
               marginTop: 24,
-              maxWidth: 560,
+              maxWidth: 580,
+              lineHeight: 1.3,
             }}
           >
-            Full-Stack Developer &amp; UI/UX Designer
+            Full-Stack Developer &amp; UI/UX Designer &amp; Software Tester
           </div>
           <div
             style={{
               fontSize: 20,
               fontWeight: 600,
               color: "rgba(16,16,15,0.4)",
-              marginTop: 32,
+              marginTop: 24,
             }}
           >
             cheurnlyheng.com
