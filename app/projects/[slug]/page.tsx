@@ -17,9 +17,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {};
   }
 
+  const cover = project.images[0];
+
   return {
-    title: `${project.title} | Cheurn Lyheng`,
+    title: project.title,
     description: project.description,
+    alternates: {
+      canonical: `/projects/${project.slug}`,
+    },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      type: "article",
+      images: cover ? [{ url: cover }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
+      images: cover ? [cover] : undefined,
+    },
   };
 }
 
