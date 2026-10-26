@@ -61,11 +61,18 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
     month: "short",
     year: "numeric",
   }).format(new Date(project.date));
+  const href = `/projects/${project.slug}`;
 
   return (
-    <div>
-      {/* Text block */}
-      <div className="max-w-3xl space-y-4">
+    <div className="group relative">
+      <Link
+        href={href}
+        className="absolute inset-0 z-0 rounded-2xl"
+        aria-label={`View ${project.title} project details`}
+      />
+
+      {/* Text block — click-through to the stretched link above, except the action buttons */}
+      <div className="relative z-10 max-w-3xl space-y-4 pointer-events-none">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
             {formattedDate}
@@ -75,11 +82,9 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
           </span>
         </div>
 
-        <Link href={`/projects/${project.slug}`}>
-          <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F] hover:text-[#10100F]/70 transition-colors">
-            {project.title}
-          </h3>
-        </Link>
+        <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F] transition-colors group-hover:text-[#10100F]/70">
+          {project.title}
+        </h3>
 
         {project.description ? (
           <p className="max-w-2xl text-sm sm:text-base font-medium leading-relaxed text-[#10100F]/60">
@@ -87,10 +92,10 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
           </p>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-3 pt-1">
+        <div className="pointer-events-auto flex flex-wrap items-center gap-3 pt-1">
           <Link
             className="inline-flex items-center gap-1.5 rounded-full bg-[#10100F] hover:bg-neutral-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:shadow-md transition-all active:scale-95"
-            href={`/projects/${project.slug}`}
+            href={href}
           >
             <span>View More Detail</span>
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
@@ -122,7 +127,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
 
       {/* Browser-framed screenshot, object-contain so nothing is ever cropped */}
       {project.coverImage ? (
-        <div className="mt-8 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm">
+        <div className="relative z-10 pointer-events-none mt-8 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm">
           <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/70 px-4 py-3">
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
@@ -134,7 +139,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
                 <source media="(max-width: 639px)" srcSet={project.mobileCoverImage} />
               ) : null}
               <img
-                className="max-h-[70vh] w-auto max-w-full rounded-lg object-contain shadow-md"
+                className="max-h-[70vh] w-auto max-w-full rounded-lg object-contain shadow-md transition duration-500 ease-out group-hover:scale-[1.01]"
                 style={{ objectPosition: project.coverPosition }}
                 src={project.coverImage}
                 alt={project.title}
