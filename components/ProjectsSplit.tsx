@@ -32,19 +32,13 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
 
   return (
     <motion.div
-      className="group relative w-full min-w-0"
+      className="w-full min-w-0"
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link
-        href={href}
-        className="absolute inset-0 z-0 rounded-2xl"
-        aria-label={`View ${project.title} project details`}
-      />
-
-      <div className="relative z-10 pointer-events-none">
+      <div>
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
             {formattedDate}
@@ -54,7 +48,7 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
           </span>
         </div>
 
-        <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F] transition-colors group-hover:text-[#10100F]/70">
+        <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F]">
           {project.title}
         </h3>
 
@@ -64,7 +58,7 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
           </p>
         ) : null}
 
-        <div className="pointer-events-auto mt-4 flex flex-wrap items-center gap-3">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <Link
             className="inline-flex items-center gap-1.5 rounded-full bg-[#10100F] hover:bg-neutral-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:shadow-md transition-all active:scale-95"
             href={href}
@@ -97,9 +91,13 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
         </div>
       </div>
 
-      {/* Browser-framed screenshot, object-contain so nothing is ever cropped */}
+      {/* Browser-framed screenshot — the only click target that navigates to the project */}
       {project.coverImage ? (
-        <div className="relative z-10 pointer-events-none mt-6 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm">
+        <Link
+          href={href}
+          className="group mt-6 block overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm"
+          aria-label={`View ${project.title} project details`}
+        >
           <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/70 px-4 py-3">
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
@@ -118,9 +116,9 @@ function SplitCard({ project, index }: { project: ProjectItem; index: number }) 
               />
             </picture>
           </div>
-        </div>
+        </Link>
       ) : (
-        <div className="relative z-10 pointer-events-none mt-6 flex aspect-video items-center justify-center rounded-2xl border border-dashed border-black/15 bg-black/[0.02] text-xs font-bold uppercase tracking-wider text-[#10100F]/30">
+        <div className="mt-6 flex aspect-video items-center justify-center rounded-2xl border border-dashed border-black/15 bg-black/[0.02] text-xs font-bold uppercase tracking-wider text-[#10100F]/30">
           No Cover Image
         </div>
       )}

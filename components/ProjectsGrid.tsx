@@ -64,15 +64,9 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
   const href = `/projects/${project.slug}`;
 
   return (
-    <div className="group relative">
-      <Link
-        href={href}
-        className="absolute inset-0 z-0 rounded-2xl"
-        aria-label={`View ${project.title} project details`}
-      />
-
-      {/* Text block — click-through to the stretched link above, except the action buttons */}
-      <div className="relative z-10 max-w-3xl space-y-4 pointer-events-none">
+    <div>
+      {/* Text block — not a nav target */}
+      <div className="max-w-3xl space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#10100F]/70">
             {formattedDate}
@@ -82,7 +76,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
           </span>
         </div>
 
-        <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F] transition-colors group-hover:text-[#10100F]/70">
+        <h3 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.95] text-[#10100F]">
           {project.title}
         </h3>
 
@@ -92,7 +86,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
           </p>
         ) : null}
 
-        <div className="pointer-events-auto flex flex-wrap items-center gap-3 pt-1">
+        <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link
             className="inline-flex items-center gap-1.5 rounded-full bg-[#10100F] hover:bg-neutral-800 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:shadow-md transition-all active:scale-95"
             href={href}
@@ -125,9 +119,13 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
         </div>
       </div>
 
-      {/* Browser-framed screenshot, object-contain so nothing is ever cropped */}
+      {/* Browser-framed screenshot — the only click target that navigates to the project */}
       {project.coverImage ? (
-        <div className="relative z-10 pointer-events-none mt-8 overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm">
+        <Link
+          href={href}
+          className="group mt-8 block overflow-hidden rounded-2xl border border-black/10 bg-[#f4f1ea] shadow-sm"
+          aria-label={`View ${project.title} project details`}
+        >
           <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/70 px-4 py-3">
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
             <span className="h-2.5 w-2.5 rounded-full bg-black/10" />
@@ -146,7 +144,7 @@ function ProjectFeature({ project }: { project: ProjectItem }) {
               />
             </picture>
           </div>
-        </div>
+        </Link>
       ) : null}
     </div>
   );
