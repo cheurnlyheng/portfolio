@@ -39,7 +39,7 @@ export async function Projects() {
 
   return (
     <section
-      className="relative scroll-mt-28 border-t border-black/5 py-20 sm:scroll-mt-20 lg:py-28"
+      className="relative border-t border-black/5 py-20 lg:py-28"
       id="projects"
     >
       <div className="mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-[54px]">

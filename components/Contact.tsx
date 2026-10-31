@@ -58,7 +58,7 @@ export function Contact() {
 
   return (
     <section
-      className="relative scroll-mt-28 overflow-hidden bg-[#10100F] py-20 text-white selection:bg-white selection:text-[#10100F] sm:scroll-mt-20 lg:py-28 border-t border-white/10"
+      className="relative overflow-hidden bg-[#10100F] py-20 text-white selection:bg-white selection:text-[#10100F] lg:py-28 border-t border-white/10"
       id="contact"
     >
       {/* Background Ambience */}

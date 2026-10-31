@@ -28,7 +28,7 @@ export function HeroRotator({ slides }: { slides: HeroSlideData[] }) {
 
   return (
     <section
-      className="relative h-[160vh] w-full scroll-mt-28 sm:h-[175vh] sm:scroll-mt-20"
+      className="relative h-[160vh] w-full sm:h-[175vh]"
       id="home"
     >
       {/* Tall background image spanning full height */}

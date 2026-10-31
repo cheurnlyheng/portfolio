@@ -1,8 +1,25 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { navItems } from "@/data/navigation";
 import { socials } from "@/data/socials";
 
 export function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const year = new Date().getFullYear();
+
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!isHome) {
+      return;
+    }
+    event.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.pushState(null, "", href);
+    }
+  };
 
   return (
     <footer className="w-full bg-[#10100F] text-white font-sans antialiased border-t border-white/10 selection:bg-white selection:text-[#10100F] relative overflow-hidden">
@@ -38,13 +55,21 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs text-white/70 list-none p-0 m-0 font-medium">
               <li>
-                <a href="/#home" className="hover:text-white transition-colors block">
+                <a
+                  href={isHome ? "#home" : "/#home"}
+                  onClick={(e) => handleNavClick(e, "#home")}
+                  className="hover:text-white transition-colors block cursor-pointer"
+                >
                   Home
                 </a>
               </li>
               {navItems.map((item) => (
                 <li key={item.href}>
-                  <a href={`/${item.href}`} className="hover:text-white transition-colors block">
+                  <a
+                    href={isHome ? item.href : `/${item.href}`}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="hover:text-white transition-colors block cursor-pointer"
+                  >
                     {item.label}
                   </a>
                 </li>
