@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 const smoothEase = [0.22, 1, 0.36, 1] as const;
+const MotionImage = motion(Image);
 
 export type HeroSlideData = {
   image: string;
@@ -32,12 +34,16 @@ export function HeroRotator({ slides }: { slides: HeroSlideData[] }) {
       {/* Tall background image spanning full height */}
       <div className="absolute inset-0 h-full w-full overflow-hidden">
         <AnimatePresence>
-          <motion.img
+          <MotionImage
             key={slide.image}
-            className="absolute inset-0 h-full w-full object-cover object-top grayscale contrast-[1.08]"
+            className="object-cover object-top grayscale contrast-[1.08]"
             style={{ willChange: "opacity" }}
             src={slide.image}
             alt="Cheurn Lyheng"
+            fill
+            priority
+            sizes="100vw"
+            quality={85}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

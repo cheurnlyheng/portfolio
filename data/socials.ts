@@ -29,9 +29,9 @@ export const socials: Array<{
     value: "Facebook",
   },
   {
-    label: "Discord",
-    href: "https://discord.com/app",
-    icon: "/icons/social/discord.svg",
-    value: "@hengizanaki",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/cheurn-lyheng-5ba424422/",
+    icon: "/icons/social/linkedin.svg",
+    value: "Cheurn Lyheng",
   },
 ];
